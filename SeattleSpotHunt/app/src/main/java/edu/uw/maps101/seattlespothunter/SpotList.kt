@@ -1,5 +1,7 @@
 package edu.uw.maps101.seattlespothunter
 
+import com.google.android.gms.maps.model.LatLng
+
 class SpotList: ArrayList<Spot>() {
     val list = ArrayList<Spot>()
 
@@ -10,8 +12,7 @@ class SpotList: ArrayList<Spot>() {
 
     //This helper function adds 20 new spot objects to the Array list for each of the predetermined tourists spots and intializes all of them to
     private fun addAllSpots() {
-        list.add(Spot("Space Needle","A classic landmark of Seattle", false, 0, 0))
-        //Pit Stop Total: 20
+        list.add(Spot(R.strings.spot1name, R.strings.spot1desc, false, LatLng(R.locations.spot1lat, R.location))) //Space Needle
         //Space Needle
         //Pike Place
         //Pacific Science Center
@@ -28,7 +29,6 @@ data class Spot (
     val name: String,
     val desc: String,
     val cost: Boolean,
-    val lat: Int,
-    val long: Int,
+    val latLng: LatLng,
     var visited: Boolean = false
 )
