@@ -21,13 +21,6 @@ class TabActivity : AppCompatActivity() {
      */
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
-
-    /**
-     * Progress tab variables
-     */
-    private lateinit var progressRecyclerView: RecyclerView
-    private lateinit var progressRecyclerViewAdapter: MyProgressRecyclerViewAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tab)
@@ -42,13 +35,6 @@ class TabActivity : AppCompatActivity() {
 
         tab_layout.setupWithViewPager(container)
         tab_layout.setSelectedTabIndicatorColor(resources.getColor(R.color.white))
-
-        /**
-         * Progress tab set up
-//         */
-//        progressRecyclerView = progress_list
-//        progressRecyclerViewAdapter
-
 
 //        fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

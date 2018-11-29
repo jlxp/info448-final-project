@@ -82,7 +82,7 @@ class ProgressFragment : Fragment() {
      */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onListFragmentInteraction(item: SpotList.Spot?)
     }
 
     companion object {

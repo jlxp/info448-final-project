@@ -1,5 +1,6 @@
 package edu.uw.maps101.seattlespothunter
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,10 @@ class MyProgressRecyclerViewAdapter(
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as DummyItem
+            val item = v.tag as SpotList.Spot
+            val intent = Intent(v.context, SpotDetailActivity::class.java)
+            v.context.startActivity(intent)
+
             // Notify the active callbacks interface (the activity, if the fragment is attached to
             // one) that an item has been selected.
             mListener?.onListFragmentInteraction(item)
@@ -42,9 +46,10 @@ class MyProgressRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-//        holder.mIdView.text = "icon"
+        // TODO put in if statement to determine what icon to use here
         holder.mIcon.setImageResource(R.drawable.ic_clear_checkmark)
-        holder.mContentView.text = item.name
+        holder.mName.text = item.name
+        holder.nDistance.text = "" + item.lat + " " + item.long
 
         with(holder.mView) {
             tag = item
@@ -56,11 +61,7 @@ class MyProgressRecyclerViewAdapter(
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mIcon: ImageView = mView.progress_icon
-        val mIdView: TextView = mView.item_number
-        val mContentView: TextView = mView.content
-
-        override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
-        }
+        val mName: TextView = mView.progress_list_name
+        val nDistance: TextView = mView.progress_list_distance
     }
 }
