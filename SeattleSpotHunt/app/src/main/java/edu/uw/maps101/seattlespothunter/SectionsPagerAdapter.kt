@@ -15,7 +15,7 @@ class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         when (position) {
             0 -> fragment = MapFragment.newInstance()
             1 -> fragment = SpotListFragment.newInstance()
-            2 -> fragment = ProgressFragment.newInstance()
+            2 -> fragment = ProgressCircle.newInstance()
             else -> fragment = MapFragment.newInstance()
         }
         return fragment
