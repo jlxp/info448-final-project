@@ -1,22 +1,11 @@
 package edu.uw.maps101.seattlespothunter
 
+import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
-import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-
 import kotlinx.android.synthetic.main.activity_tab.*
-import kotlinx.android.synthetic.main.fragment_tab.view.*
 
 class TabActivity : AppCompatActivity() {
 

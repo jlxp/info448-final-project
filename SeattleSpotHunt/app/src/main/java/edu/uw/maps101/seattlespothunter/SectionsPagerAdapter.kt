@@ -26,9 +26,11 @@ class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     }
 
     override fun getPageTitle(position: Int): CharSequence = when (position) {
-        0 -> "Tab 1 Item"
-        1 -> "Tab 2 Item"
-        2 -> "Tab 3 Item"
+        // these are named directly in the code instead of the string file because I can't seem to get the context
+        // of the fragments since they aren't initialized here
+        0 -> "Map"
+        1 -> "List"
+        2 -> "Progress"
         else -> ""
     }
 
