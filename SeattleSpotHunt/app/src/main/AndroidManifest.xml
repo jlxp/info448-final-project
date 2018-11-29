@@ -8,6 +8,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/space_needle"
@@ -15,6 +16,9 @@
             android:roundIcon="@mipmap/space_needle_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+
+        <!--https://issuetracker.google.com/issues/79478779-->
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
