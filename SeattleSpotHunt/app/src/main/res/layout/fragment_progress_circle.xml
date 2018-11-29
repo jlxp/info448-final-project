@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--https://android-arsenal.com/details/1/6969-->
 <com.brkckr.circularprogressbar.CircularProgressBar
         android:id="@+id/circularProgressBar"
-        app:cpbBackgroundColor="#F1992D"
+        app:cpbBackgroundColor="@color/colorAccent"
         app:cpbBackgroundWidth="@dimen/background_width"
-        app:cpbProgressColor="#9F3238"
+        app:cpbProgressColor="@color/colorPrimary"
         app:cpbProgressValue="15"
         app:cpbProgressWidth="@dimen/progress_width"
         app:cpbState="clockwise"
