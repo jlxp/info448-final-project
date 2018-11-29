@@ -9,22 +9,44 @@
               tools:context=".ProgressFragment"
               tools:listitem="@layout/fragment_progress">
 
-    <com.brkckr.circularprogressbar.CircularProgressBar
-            android:id="@+id/circularProgressBar"
-            app:cpbBackgroundColor="@color/colorAccent"
-            app:cpbBackgroundWidth="@dimen/background_width"
-            app:cpbProgressColor="@color/colorPrimary"
-            app:cpbProgressValue="15"
-            app:cpbProgressWidth="@dimen/progress_width"
-            app:cpbState="clockwise"
-            android:layout_width="80dp"
-            android:layout_height="80dp"/>
+    <FrameLayout android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/progress_indicator"
+                 android:layout_gravity="center">
+
+        <com.brkckr.circularprogressbar.CircularProgressBar
+                android:id="@+id/circularProgressBar"
+                app:cpbBackgroundColor="@color/progress_circle_background"
+                app:cpbBackgroundWidth="@dimen/progress_background_width"
+                app:cpbProgressColor="@color/colorPrimary"
+                app:cpbProgressValue="15"
+                app:cpbProgressWidth="@dimen/progress_indicator_width"
+                app:cpbState="clockwise"
+                android:layout_width="@dimen/progress_width_height"
+                android:layout_height="@dimen/progress_width_height"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/text_margin" />
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/progress_percentage"
+                  android:text="50%"
+                  android:layout_gravity="center"
+                  android:textSize="@dimen/percent_size" />
+    </FrameLayout>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:textSize="@dimen/progress_title"
+              android:text="Temp Text"
+              android:layout_gravity="center"
+              android:layout_margin="@dimen/text_margin"/>
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 </LinearLayout>
