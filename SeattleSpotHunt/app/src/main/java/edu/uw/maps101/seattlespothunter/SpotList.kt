@@ -26,6 +26,9 @@ object SpotList {
         //Chehuly
     }
 
+    /**
+     * TODO: just a thought but shouldn't we include the actual address and and image of the place too?
+     */
     @Parcelize
     data class Spot (
         val name: String,
@@ -35,5 +38,4 @@ object SpotList {
         val long: Int,
         var visited: Boolean = false
     ) : Parcelable
-
 }

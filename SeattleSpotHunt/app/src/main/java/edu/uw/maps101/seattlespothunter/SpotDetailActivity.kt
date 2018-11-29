@@ -9,12 +9,18 @@ import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_spot_detail.*
 
-class SpotDetailActivity : AppCompatActivity() {
+class SpotDetailActivity : AppCompatActivity(), SpotDetailFragment.Toolbar {
+
+    // this doesn't do anything but theoretically it should set the toolbar title
+    // I had to set it manually from the xml because this doesn't work
+    override fun setUpToolbar() {
+        detail_toolbar?.title = " "
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spot_detail)
-        setSupportActionBar(toolbar)
+        setSupportActionBar(detail_toolbar)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
