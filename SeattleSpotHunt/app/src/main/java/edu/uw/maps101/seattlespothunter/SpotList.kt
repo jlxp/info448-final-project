@@ -1,5 +1,9 @@
 package edu.uw.maps101.seattlespothunter
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+
 object SpotList {
     val LIST: MutableList<Spot> = ArrayList()
 
@@ -22,6 +26,7 @@ object SpotList {
         //Chehuly
     }
 
+    @Parcelize
     data class Spot (
         val name: String,
         val desc: String,
@@ -29,6 +34,6 @@ object SpotList {
         val lat: Int,
         val long: Int,
         var visited: Boolean = false
-    )
+    ) : Parcelable
 
 }

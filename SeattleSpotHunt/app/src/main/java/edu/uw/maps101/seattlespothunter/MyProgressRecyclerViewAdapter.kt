@@ -36,7 +36,9 @@ class MyProgressRecyclerViewAdapter(
     private fun showDetails(): View.OnClickListener {
         return View.OnClickListener { v ->
             val item = v.tag as SpotList.Spot
-            val intent = Intent(v.context, SpotDetailActivity::class.java)
+            val intent = Intent(v.context, SpotDetailActivity::class.java).apply {
+                putExtra(SpotDetailFragment.SPOT_DETAIL_ID, item)
+            }
             v.context.startActivity(intent)
         }
     }

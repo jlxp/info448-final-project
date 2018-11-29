@@ -19,10 +19,9 @@ class SpotDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState == null) {
-            val fragment = SpotDetailFragment.newInstance()
+            val fragment = SpotDetailFragment.newInstance(intent.getParcelableExtra(SpotDetailFragment.SPOT_DETAIL_ID))
             supportFragmentManager.beginTransaction()
                 .add(R.id.spot_detail_container, fragment)
-                .addToBackStack(null)
                 .commit()
         }
 
