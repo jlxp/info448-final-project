@@ -11,14 +11,14 @@ import android.support.v4.app.FragmentPagerAdapter
 class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-//        var fragment: Fragment
-////        when (position) {
-////            0 -> fragment = MapFragment.newInstance()
-////            1 -> fragment = MapFragment().newInstance()
-////            else -> fragment = MapFragment().newInstance()
-////        }
-////        return fragment
-        return MapFragment.newInstance()
+        var fragment: Fragment
+        when (position) {
+            0 -> fragment = MapFragment.newInstance()
+            1 -> fragment = SpotListFragment.newInstance()
+            2 -> fragment = ProgressFragment.newInstance()
+            else -> fragment = MapFragment.newInstance()
+        }
+        return fragment
     }
 
     override fun getCount(): Int {
