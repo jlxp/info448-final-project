@@ -3,9 +3,11 @@ package edu.uw.maps101.seattlespothunter
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.RecyclerView
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_tab.*
+import kotlinx.android.synthetic.main.fragment_progress_list.*
 
 class TabActivity : AppCompatActivity() {
 
@@ -18,6 +20,13 @@ class TabActivity : AppCompatActivity() {
      * [android.support.v4.app.FragmentStatePagerAdapter].
      */
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
+
+
+    /**
+     * Progress tab variables
+     */
+    private lateinit var progressRecyclerView: RecyclerView
+    private lateinit var progressRecyclerViewAdapter: MyProgressRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +42,13 @@ class TabActivity : AppCompatActivity() {
 
         tab_layout.setupWithViewPager(container)
         tab_layout.setSelectedTabIndicatorColor(resources.getColor(R.color.white))
+
+        /**
+         * Progress tab set up
+//         */
+//        progressRecyclerView = progress_list
+//        progressRecyclerViewAdapter
+
 
 //        fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

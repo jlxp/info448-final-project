@@ -1,7 +1,7 @@
 package edu.uw.maps101.seattlespothunter
 
-class SpotList: ArrayList<Spot>() {
-    val list = ArrayList<Spot>()
+object SpotList {
+    val LIST: MutableList<Spot> = ArrayList()
 
     init {
         addAllSpots()
@@ -10,7 +10,7 @@ class SpotList: ArrayList<Spot>() {
 
     //This helper function adds 20 new spot objects to the Array list for each of the predetermined tourists spots and intializes all of them to
     private fun addAllSpots() {
-        list.add(Spot("Space Needle","A classic landmark of Seattle", false, 0, 0))
+        LIST.add(Spot("Space Needle","A classic landmark of Seattle", false, 0, 0))
         //Pit Stop Total: 20
         //Space Needle
         //Pike Place
@@ -22,13 +22,13 @@ class SpotList: ArrayList<Spot>() {
         //Chehuly
     }
 
-}
+    data class Spot (
+        val name: String,
+        val desc: String,
+        val cost: Boolean,
+        val lat: Int,
+        val long: Int,
+        var visited: Boolean = false
+    )
 
-data class Spot (
-    val name: String,
-    val desc: String,
-    val cost: Boolean,
-    val lat: Int,
-    val long: Int,
-    var visited: Boolean = false
-)
+}

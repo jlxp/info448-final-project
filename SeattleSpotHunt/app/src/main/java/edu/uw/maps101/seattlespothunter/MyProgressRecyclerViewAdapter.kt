@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 
 
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_progress.view.*
  * TODO: Replace the implementation with code for your data type.
  */
 class MyProgressRecyclerViewAdapter(
-    private val mValues: List<DummyItem>,
+    private val mValues: List<SpotList.Spot>,
     private val mListener: OnListFragmentInteractionListener?
 ) : RecyclerView.Adapter<MyProgressRecyclerViewAdapter.ViewHolder>() {
 
@@ -41,8 +42,9 @@ class MyProgressRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+//        holder.mIdView.text = "icon"
+        holder.mIcon.setImageResource(R.drawable.ic_clear_checkmark)
+        holder.mContentView.text = item.name
 
         with(holder.mView) {
             tag = item
@@ -53,6 +55,7 @@ class MyProgressRecyclerViewAdapter(
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+        val mIcon: ImageView = mView.progress_icon
         val mIdView: TextView = mView.item_number
         val mContentView: TextView = mView.content
 

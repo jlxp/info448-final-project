@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import com.brkckr.circularprogressbar.CircularProgressBar
 
 import edu.uw.maps101.seattlespothunter.dummy.DummyContent
 import edu.uw.maps101.seattlespothunter.dummy.DummyContent.DummyItem
@@ -25,6 +27,8 @@ class ProgressFragment : Fragment() {
 
     private var listener: OnListFragmentInteractionListener? = null
 
+    private lateinit var circularProgressBar: CircularProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,7 +43,11 @@ class ProgressFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_progress_list, container, false)
 
-        view.findViewById<RecyclerView>(R.id.list).adapter = MyProgressRecyclerViewAdapter(DummyContent.ITEMS, listener)
+        circularProgressBar = view.findViewById(R.id.circularProgressBar)
+
+//        circularProgressBar.progressValue
+
+        view.findViewById<RecyclerView>(R.id.progress_list).adapter = MyProgressRecyclerViewAdapter(SpotList.LIST, listener)
 
         return view
     }
