@@ -34,6 +34,10 @@ class ProgressFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_progress_list, container, false)
 
+        /**
+         * the progress bar gets updated in the map, I think, since whenever the user is at the spot the data will be
+         * changed to visited and then the circle progress should also be updated...???
+         */
         circularProgressBar = view.findViewById(R.id.circularProgressBar)
 
 //        circularProgressBar.progressValue
