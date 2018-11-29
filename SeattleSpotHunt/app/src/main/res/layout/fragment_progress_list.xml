@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+              xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:name="edu.uw.maps101.seattlespothunter.ProgressFragment"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".ProgressFragment"
+              tools:listitem="@layout/fragment_progress">
 
-<android.support.v7.widget.RecyclerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/list"
-        android:name="edu.uw.maps101.seattlespothunter.ProgressFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:context=".ProgressFragment"
-        tools:listitem="@layout/fragment_progress"/>
+    <com.brkckr.circularprogressbar.CircularProgressBar
+            android:id="@+id/circularProgressBar"
+            app:cpbBackgroundColor="@color/colorAccent"
+            app:cpbBackgroundWidth="@dimen/background_width"
+            app:cpbProgressColor="@color/colorPrimary"
+            app:cpbProgressValue="15"
+            app:cpbProgressWidth="@dimen/progress_width"
+            app:cpbState="clockwise"
+            android:layout_width="80dp"
+            android:layout_height="80dp"/>
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+</LinearLayout>

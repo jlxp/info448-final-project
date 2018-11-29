@@ -39,16 +39,18 @@ class ProgressFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_progress_list, container, false)
 
+        view.findViewById<RecyclerView>(R.id.list).adapter = MyProgressRecyclerViewAdapter(DummyContent.ITEMS, listener)
+
         // Set the adapter
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(context)
-                    else -> GridLayoutManager(context, columnCount)
-                }
-                adapter = MyProgressRecyclerViewAdapter(DummyContent.ITEMS, listener)
-            }
-        }
+//        if (view is RecyclerView) {
+//            with(view) {
+//                layoutManager = when {
+//                    columnCount <= 1 -> LinearLayoutManager(context)
+//                    else -> GridLayoutManager(context, columnCount)
+//                }
+//                adapter = MyProgressRecyclerViewAdapter(DummyContent.ITEMS, listener)
+//            }
+//        }
         return view
     }
 
