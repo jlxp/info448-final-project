@@ -54,6 +54,9 @@ class ProgressFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        /*
+        this is commented out because it may or may not be needed but throws error since not fully implemented
+         */
 //        if (context is OnListFragmentInteractionListener) {
 //            listener = context
 //        } else {
@@ -88,7 +91,6 @@ class ProgressFragment : Fragment() {
         const val ARG_COLUMN_COUNT = "column-count"
 
         // TODO: Customize parameter initialization
-        fun newInstance() =
-            ProgressFragment()
+        fun newInstance() = ProgressFragment()
     }
 }
