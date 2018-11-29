@@ -33,10 +33,6 @@ class TabActivity : AppCompatActivity() {
 
         tab_layout.setupWithViewPager(container)
 
-//        tab_layout.addOnTabSelectedListener(TabLayout.OnTabSelectedListener {
-//
-//        })
-
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
