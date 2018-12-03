@@ -1,6 +1,12 @@
 package edu.uw.maps101.seattlespothunter
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -8,13 +14,17 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
+
 class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getMapAsync(this)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
     /**
@@ -29,10 +39,29 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        //move the camera to Seattle
+        val seattle = LatLng(47.608013, -122.335167)
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(seattle))
+
+        //Initialize Google Play Services
+        val permissionCheck = ContextCompat.checkSelfPermission(, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+            //access last location, asynchronously!
+            mMap.setMyLocationEnabled(true);
+//            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location ->
+//                currentLatLng = LatLng(location.latitude, location.longitude)
+//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 20.toFloat()))
+//                saveFile()
+//            }
+        } else {
+            //ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LAST_LOCATION_REQUEST_CODE)
+        }
+
+        mMap.getUiSettings().setMyLocationButtonEnabled(true)
+    }
+
+    fun setSpotsOnMap() {
+
     }
 
     companion object {
