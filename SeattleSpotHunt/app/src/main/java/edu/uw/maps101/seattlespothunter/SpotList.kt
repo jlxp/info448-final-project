@@ -26,6 +26,16 @@ object SpotList {
         //Chehuly
     }
 
+    fun getPercent(): Double {
+        var count = 0
+        for (spot in LIST) {
+            if (spot.visited) {
+                count++
+            }
+        }
+        return 0.0 + count / LIST.size
+    }
+
     /**
      * TODO: just a thought but shouldn't we include the actual address and and image of the place too?
      */

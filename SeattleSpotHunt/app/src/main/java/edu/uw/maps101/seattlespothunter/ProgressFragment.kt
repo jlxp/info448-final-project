@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.brkckr.circularprogressbar.CircularProgressBar
 
 /**
@@ -34,14 +35,10 @@ class ProgressFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_progress_list, container, false)
 
-        /**
-         * the progress bar gets updated in the map, I think, since whenever the user is at the spot the data will be
-         * changed to visited and then the circle progress should also be updated...???
-         */
         circularProgressBar = view.findViewById(R.id.circularProgressBar)
-
-//        circularProgressBar.progressValue
-
+        val percent = SpotList.getPercent()
+        circularProgressBar.progressValue = percent.toFloat()
+        view.findViewById<TextView>(R.id.progress_percentage).text = percent.toString() + "%"
         view.findViewById<RecyclerView>(R.id.progress_list).adapter = MyProgressRecyclerViewAdapter(SpotList.LIST)
 
         return view
