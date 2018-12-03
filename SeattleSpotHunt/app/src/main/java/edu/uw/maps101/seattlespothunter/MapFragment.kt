@@ -8,6 +8,7 @@ import com.google.android.gms.maps.SupportMapFragment
 
 import android.Manifest
 import android.app.Activity
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -56,6 +57,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getMapAsync(this)
@@ -66,10 +68,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
         getLastLocation() //first time
 
-        // Load in the markers, with their respective colors
-        // Red marker = not visited yet
-        // Green marker = visited
-        updateMarkerColors()
+
     }
 
     // If the user walks in radius of one of the pit stops that they have not yet visited,
@@ -155,9 +154,10 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                     .position(loc)
                     .title(it.name)
 
+            // Visited => Green
             if (it.visited == true) {
                 mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-            } else {
+            } else { // Unvisited => Red
                 mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
             }
             // When you click on any marker, go to the descriptive view of it
@@ -167,7 +167,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     }
 
     // See
-    private fun goToDescriptiveView(pitstopName: String) {
+    private fun goToDescriptiveView(pitStopName: String) {
         // Some intent stuff goes here...
     }
 
@@ -175,6 +175,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     private fun notifyReached(spot: SpotList.Spot) {
         Toast.makeText(mContext, "You made it to the ${spot.name}!", Toast.LENGTH_LONG).show()
         Log.v(TAG, "888AAA")
+
+        // Check if notifications are enabled in settings
 
         // https://github.com/info448-au18/yama-greycabb/blob/master/app/src/main/java/edu/uw/greycabb/yama/MySmsReceiver.kt
     }
@@ -195,7 +197,6 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             Toast.makeText(mContext, "Got location", Toast.LENGTH_SHORT).show()
 
             val newLL = LatLng(location.latitude, location.longitude)
-
 
             // Move map to start position on start
             if (lat == noLocation) {
@@ -292,6 +293,11 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         //val sydney = LatLng(-34.0, 151.0)
         //mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+        // Load in the markers, with their respective colors
+        // Red marker = not visited yet
+        // Green marker = visited
+        updateMarkerColors()
     }
 
     companion object {
