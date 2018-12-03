@@ -40,7 +40,7 @@ import java.io.InputStreamReader
 class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-    private val TAG = "Map"
+    private val TAG = "MapFragment"
 
     private var mContext: Context? = null
 
@@ -66,8 +66,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
         getLastLocation() //first time
 
-
-        // Load in the markers.
+        // Load in the markers, with their respective colors
         // Red marker = not visited yet
         // Green marker = visited
         updateMarkerColors()
@@ -76,18 +75,17 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     // If the user walks in radius of one of the pit stops that they have not yet visited,
     // send them a notification
     private fun updatePitStopsIfWeWalkWithinRadiusOfAPitStop(myLoc: Location?) {
-
         //Distance in meters
 
         // _______________
-        // 1. Closeby notification - within 300 meters, about 1/5 a mile
+        // A. Closeby notification - within 300 meters, about 1/5 a mile
         // 1. Doesn't occur if already reached
         // 2. Mark the last visited closeby pitstop in this fragment
         // 3. Don't send this notification if last visited = the same one
         // 4. Don't send if already visited
 
         // ________________
-        // 2. Reached notification - within 100 meters (328 feet)
+        // B. Reached notification - within 100 meters (328 feet)
         // 1. Save in local storage
         // 2. Update the progress bar
         // 3. Make the target point turn green
@@ -95,8 +93,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         // 5. Don't send if already visited
 
         // Internal storage:
-        // Key (name of spot)
-        // value: Visited/not visited. true/false
+        //      Key (name of spot)
+        //      value: Visited/not visited. true/false
 
         if (myLoc != null) {
 
@@ -114,8 +112,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             // https://stackoverflow.com/questions/2741403/get-the-distance-between-two-geo-points
 
             // For testing... set this to whatever you want
-            myLoc.latitude = 0.00
-            myLoc.longitude = 0.00
+            // myLoc.latitude = 0.00
+            // myLoc.longitude = 0.00
 
             SpotList.LIST.forEach() {
                 if (it.visited == false) {
@@ -133,9 +131,6 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                         notifyReached(it)
 
                         // Change the pointer to become green
-
-
-                        // Need a dictionary of spot pointers
 
                         // Update the progress bar (if necessary)
 
@@ -165,20 +160,28 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             } else {
                 mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
             }
-            // When you click on something, go to the descriptive view of it
+            // When you click on any marker, go to the descriptive view of it
             mMap.addMarker(mo)
+            goToDescriptiveView(it.name)
         }
     }
 
-    // Within 50 meters of pitstop
-    private fun notifyReached(spot: SpotList.Spot) {
-        Toast.makeText(mContext, "You made it!", Toast.LENGTH_LONG).show()
-        Log.v(TAG, "888AAA")
+    // See
+    private fun goToDescriptiveView(pitstopName: String) {
+        // Some intent stuff goes here...
     }
 
-    // Within 300 meters of pitstop
+    // Within 50 meters of pit stop
+    private fun notifyReached(spot: SpotList.Spot) {
+        Toast.makeText(mContext, "You made it to the ${spot.name}!", Toast.LENGTH_LONG).show()
+        Log.v(TAG, "888AAA")
+
+        // https://github.com/info448-au18/yama-greycabb/blob/master/app/src/main/java/edu/uw/greycabb/yama/MySmsReceiver.kt
+    }
+
+    // Within 300 meters of pit stop
     private fun notifyAlmostReached(spot: SpotList.Spot) {
-        Toast.makeText(mContext, "You're almost there!", Toast.LENGTH_LONG).show()
+        Toast.makeText(mContext, "You're almost at the ${spot.name}!", Toast.LENGTH_LONG).show()
         Log.v(TAG, "999BBB")
     }
 
