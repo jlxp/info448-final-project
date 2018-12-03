@@ -44,7 +44,7 @@ class SpotDetailActivity : AppCompatActivity(), SpotDetailFragment.Toolbar {
         val id = item.itemId
         when (id) {
             android.R.id.home -> {
-                navigateUpTo(Intent(this, TabActivity::class.java))
+                navigateUpTo(Intent(this, fragmentManager.popBackStack().javaClass))
                 true
             }
         }
