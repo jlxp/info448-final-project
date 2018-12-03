@@ -1,6 +1,5 @@
 package edu.uw.maps101.seattlespothunter
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
@@ -9,8 +8,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import edu.uw.maps101.seattlespothunter.dummy.DummyContent
 import edu.uw.maps101.seattlespothunter.dummy.DummyContent.DummyItem
 
 /**

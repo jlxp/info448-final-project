@@ -1,8 +1,8 @@
 package edu.uw.maps101.seattlespothunter
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
 import com.google.android.gms.maps.model.LatLng
+import kotlinx.android.parcel.Parcelize
 
 object SpotList {
     val list = ArrayList<Spot>()

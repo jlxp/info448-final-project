@@ -1,16 +1,13 @@
 package edu.uw.maps101.seattlespothunter
 
+
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-
-
 import edu.uw.maps101.seattlespothunter.SpotListFragment.OnListFragmentInteractionListener
 import edu.uw.maps101.seattlespothunter.dummy.DummyContent.DummyItem
-
 import kotlinx.android.synthetic.main.fragment_spotlist.view.*
 
 /**

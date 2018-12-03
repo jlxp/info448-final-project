@@ -52,6 +52,11 @@
                 android:name=".SettingsActivity"
                 android:label="@string/title_activity_settings">
         </activity>
+
+        <service
+                android:name=".SaveIntentService"
+                android:exported="false">
+        </service>
     </application>
 
 </manifest>

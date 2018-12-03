@@ -1,14 +1,15 @@
 package edu.uw.maps101.seattlespothunter
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.Snackbar
+import android.os.Environment
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_tab.*
-import kotlinx.android.synthetic.main.fragment_progress_list.*
+import java.io.File
 
 class TabActivity : AppCompatActivity() {
 
@@ -67,5 +68,23 @@ class TabActivity : AppCompatActivity() {
             }
             else -> return super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun saveFile() {
+
+        // Get the directory for the app's private documents directory.
+        val file = File(this@TabActivity.getExternalFilesDir(
+            Environment.DIRECTORY_DOCUMENTS), "GeoJsonData") // ~/Documents/GeoJsonData
+        if (!file?.mkdirs()) {
+            Log.e("TabActivity", "Directory not created")
+            // will throw this message if the directory already exists due to rebuilding the app many times on the phone
+        }
+        var uri = Uri.Builder().appendPath(file.path).appendPath("catche").build()
+//        filePath = uri
+//        val text = editText.text
+        var intentService = Intent(this@TabActivity, SaveIntentService::class.java)
+//        intentService.putExtra("geoJson", geoJson)
+//        intentService.putExtra("filePath", filePath.path)
+        startService(intentService)
     }
 }
