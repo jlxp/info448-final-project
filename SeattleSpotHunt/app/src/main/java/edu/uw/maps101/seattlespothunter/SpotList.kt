@@ -3,7 +3,7 @@ package edu.uw.maps101.seattlespothunter
 import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 
-class SpotList: ArrayList<Spot>() {
+object SpotList {
     val list = ArrayList<Spot>()
 
     init {
@@ -115,12 +115,12 @@ class SpotList: ArrayList<Spot>() {
             LatLng(47.601716,-122.336667)))
     }
 
+    data class Spot (
+        val name: String,
+        val desc: String,
+        val cost: Boolean,
+        val latLng: LatLng,
+        var visited: Boolean = false
+    )
 }
 
-data class Spot (
-    val name: String,
-    val desc: String,
-    val cost: Boolean,
-    val latLng: LatLng,
-    var visited: Boolean = false
-)
