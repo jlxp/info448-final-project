@@ -48,6 +48,10 @@
                 android:label="@string/title_activity_spot_detail"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+                android:name=".SettingsActivity"
+                android:label="@string/title_activity_settings">
+        </activity>
     </application>
 
 </manifest>
