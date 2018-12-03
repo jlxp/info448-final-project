@@ -1,5 +1,6 @@
 package edu.uw.maps101.seattlespothunter
 
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -18,20 +19,8 @@ import kotlinx.android.synthetic.main.fragment_spotlist.view.*
  * TODO: Replace the implementation with code for your data type.
  */
 class MySpotListRecyclerViewAdapter(
-    private val mValues: List<DummyItem>,
-    private val mListener: OnListFragmentInteractionListener?
+    private val mValues: List<SpotList.Spot>
 ) : RecyclerView.Adapter<MySpotListRecyclerViewAdapter.ViewHolder>() {
-
-    private val mOnClickListener: View.OnClickListener
-
-    init {
-        mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as DummyItem
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
-            mListener?.onListFragmentInteraction(item)
-        }
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -41,23 +30,29 @@ class MySpotListRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+        holder.mName.text = item.name
+        holder.mDesc.text = item.desc
 
         with(holder.mView) {
             tag = item
-            setOnClickListener(mOnClickListener)
+            setOnClickListener(showDetails())
+        }
+    }
+
+    private fun showDetails(): View.OnClickListener {
+        return View.OnClickListener { v ->
+            val item = v.tag as SpotList.Spot
+            val intent = Intent(v.context, SpotDetailActivity::class.java).apply {
+                putExtra(SpotDetailFragment.SPOT_DETAIL_ID, item)
+            }
+            v.context.startActivity(intent)
         }
     }
 
     override fun getItemCount(): Int = mValues.size
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView = mView.item_number
-        val mContentView: TextView = mView.content
-
-        override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
-        }
+        val mName = mView.name
+        val mDesc = mView.desc
     }
 }

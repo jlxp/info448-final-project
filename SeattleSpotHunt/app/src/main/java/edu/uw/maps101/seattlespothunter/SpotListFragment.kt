@@ -46,22 +46,10 @@ class SpotListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MySpotListRecyclerViewAdapter(DummyContent.ITEMS, listener)
+                adapter = MySpotListRecyclerViewAdapter(SpotList.LIST)
             }
         }
         return view
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        /*
-        this is commented out because it may or may not be needed but throws error since not fully implemented
-         */
-//        if (context is OnListFragmentInteractionListener) {
-//            listener = context
-//        } else {
-//            throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
-//        }
     }
 
     override fun onDetach() {
