@@ -118,19 +118,20 @@ object SpotList {
   
     fun getPercent(): Double {
         var count = 0
-        for (spot in LIST) {
+        for (spot in list) {
             if (spot.visited) {
                 count++
             }
         }
-        return 0.0 + count / LIST.size
+        return 0.0 + count / list.size
     }
-  
+
+    @Parcelize
     data class Spot (
         val name: String,
         val desc: String,
         val cost: Boolean,
         val latLng: LatLng,
         var visited: Boolean = false
-    )
+    ) : Parcelable
 }

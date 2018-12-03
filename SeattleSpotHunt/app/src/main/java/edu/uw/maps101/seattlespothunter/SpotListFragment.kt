@@ -46,7 +46,7 @@ class SpotListFragment : Fragment() {
                     columnCount <= 1 -> LinearLayoutManager(context)
                     else -> GridLayoutManager(context, columnCount)
                 }
-                adapter = MySpotListRecyclerViewAdapter(SpotList.LIST)
+                adapter = MySpotListRecyclerViewAdapter(SpotList.list)
             }
         }
         return view

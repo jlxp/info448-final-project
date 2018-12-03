@@ -39,7 +39,7 @@ class ProgressFragment : Fragment() {
         val percent = SpotList.getPercent()
         circularProgressBar.progressValue = percent.toFloat()
         view.findViewById<TextView>(R.id.progress_percentage).text = percent.toString() + "%"
-        view.findViewById<RecyclerView>(R.id.progress_list).adapter = MyProgressRecyclerViewAdapter(SpotList.LIST)
+        view.findViewById<RecyclerView>(R.id.progress_list).adapter = MyProgressRecyclerViewAdapter(SpotList.list)
 
         return view
     }
