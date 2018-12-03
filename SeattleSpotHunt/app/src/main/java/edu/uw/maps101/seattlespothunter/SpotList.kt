@@ -1,6 +1,7 @@
 package edu.uw.maps101.seattlespothunter
 
-import android.util.Log
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import com.google.android.gms.maps.model.LatLng
 
 object SpotList {
@@ -114,7 +115,17 @@ object SpotList {
             true,
             LatLng(47.601716,-122.336667)))
     }
-
+  
+    fun getPercent(): Double {
+        var count = 0
+        for (spot in LIST) {
+            if (spot.visited) {
+                count++
+            }
+        }
+        return 0.0 + count / LIST.size
+    }
+  
     data class Spot (
         val name: String,
         val desc: String,
@@ -123,4 +134,3 @@ object SpotList {
         var visited: Boolean = false
     )
 }
-

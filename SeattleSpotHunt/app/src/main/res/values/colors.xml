@@ -3,4 +3,8 @@
     <color name="colorPrimary">#1B5E20</color>
     <color name="colorPrimaryDark">#003300</color>
     <color name="colorAccent">#4C8C4A</color>
+    <color name="white">#ffffff</color>
+
+    <!--opacity added to the accent color for progress circle background-->
+    <color name="progress_circle_background">#804C8C4A</color>
 </resources>
