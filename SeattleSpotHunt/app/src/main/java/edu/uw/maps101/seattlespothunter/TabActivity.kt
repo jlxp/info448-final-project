@@ -42,6 +42,12 @@ class TabActivity : AppCompatActivity() {
 //                .setAction("Action", null).show()
 //        }
 
+
+        // look into the file storage on user phone and check if catched file exists
+        // if it exists read in the data
+        // else create new spot list and save it to storage and read in that file
+        // pass read in list to all three fragments??
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
