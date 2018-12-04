@@ -5,11 +5,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.support.v7.app.AppCompatActivity
+import android.util.JsonReader
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_tab.*
 import java.io.File
+import java.io.BufferedReader
 
 class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
     /**
@@ -23,6 +27,10 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
     private var currentList = SpotList.list
+    // Get the directory for the app's private documents directory.
+    lateinit var file: File
+
+    private lateinit var filePath: Uri
 
     var testing = "test string in Tab Activity"
 
@@ -43,21 +51,43 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
 
         Log.v("TabAct", testing)
 
+        file = File(this@TabActivity.getExternalFilesDir(
+            Environment.DIRECTORY_DOCUMENTS), "CacheData") // ~/Documents/CacheData
+
+        filePath = Uri.Builder().appendPath(file.path).appendPath("cache.json").build()
+
 
         // look into the file storage on user phone and check if catched file exists
         // if it exists read in the data
         // else create new spot list and save it to storage and read in that file
         // pass read in list to all three fragments??
+        var existingFile = File(filePath.path)
+        if (existingFile.exists()) {
+            // read in the data and set currentList to that list
+            val gson = GsonBuilder().setPrettyPrinting().create()
+
+            val bufferedReader = existingFile.bufferedReader()
+            val jsonSpotList = bufferedReader.use { it.readText() }
+
+            val type = object : TypeToken<ArrayList<SpotList.Spot>>() {}.type
+            val resultList = gson.fromJson<ArrayList<SpotList.Spot>>(jsonSpotList, type)
+            Log.v("TabJOY", resultList.toString())
+            currentList = resultList
+        } else {
+            currentList = SpotList.list
+        }
 
     }
 
     override fun updateCurrentList(currentList: List<SpotList.Spot>) {
         this.currentList = currentList as ArrayList<SpotList.Spot>
+        saveFile()
     }
 
     override fun testDataPassed(testString: String) {
         testing = testString
         Log.v("TabAct: testDataPassed", testing)
+        saveFile()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -80,20 +110,14 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
     }
 
     private fun saveFile() {
-
-        // Get the directory for the app's private documents directory.
-        val file = File(this@TabActivity.getExternalFilesDir(
-            Environment.DIRECTORY_DOCUMENTS), "GeoJsonData") // ~/Documents/GeoJsonData
         if (!file?.mkdirs()) {
             Log.e("TabActivity", "Directory not created")
             // will throw this message if the directory already exists due to rebuilding the app many times on the phone
         }
-        var uri = Uri.Builder().appendPath(file.path).appendPath("catche").build()
-//        filePath = uri
-//        val text = editText.text
+
         var intentService = Intent(this@TabActivity, SaveIntentService::class.java)
-//        intentService.putExtra("geoJson", geoJson)
-//        intentService.putExtra("filePath", filePath.path)
+        intentService.putExtra("filePath", filePath.path)
+        intentService.putExtra("spotList", currentList)
         startService(intentService)
     }
 }

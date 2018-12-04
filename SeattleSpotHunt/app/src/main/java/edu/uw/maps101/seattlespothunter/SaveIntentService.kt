@@ -3,9 +3,12 @@ package edu.uw.maps101.seattlespothunter
 import android.app.IntentService
 import android.content.Intent
 import android.os.Environment
+import android.util.Log
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 
 class SaveIntentService : IntentService("SaveIntentService") {
 
@@ -18,9 +21,14 @@ class SaveIntentService : IntentService("SaveIntentService") {
      * on the test phone.
      */
     override fun onHandleIntent(intent: Intent) {
+        val gson = GsonBuilder().setPrettyPrinting().create()
         if (isExternalStorageWritable()) {
-            val geoJson = intent.extras.getString("geoJson")
             val file = intent.extras.getString("filePath")
+            val spotList = intent.extras.getCharSequenceArrayList("spotList")
+            val jsonSpotList = gson.toJson(spotList)
+            Log.v("IntentService", spotList.toString())
+            Log.v("IntentService", jsonSpotList)
+
             val newFile = File(file)
             if (newFile.exists()) {
                 newFile.delete()
@@ -28,7 +36,7 @@ class SaveIntentService : IntentService("SaveIntentService") {
 
             val fileOutputStream =  FileOutputStream(newFile)
             val print = PrintWriter(fileOutputStream)
-            print.println(geoJson)
+            print.println(jsonSpotList)
             print.flush()
             print.close()
         }
@@ -45,7 +53,7 @@ class SaveIntentService : IntentService("SaveIntentService") {
     }
 
     /* Checks if external storage is available for read and write */
-    fun isExternalStorageWritable(): Boolean {
+    private fun isExternalStorageWritable(): Boolean {
         return Environment.getExternalStorageState() == Environment.MEDIA_MOUNTED
     }
 }
