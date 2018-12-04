@@ -116,7 +116,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                     // If close distance
                     if (distanceInMeters <= 50) {
                         it.visited = true
-
+                        mOnSpotVisitedListener!!.updateCurrentList(currentList)
                         // Send notification: You've reached the location!
                         notifyReached(it)
                         setSpotsOnMap()
@@ -246,10 +246,10 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     }
 
     //This methods adds all markers for the current version of SpotList
-    fun setSpotsOnMap() {
+    private fun setSpotsOnMap() {
         mMap.clear()
 
-        for (spot in SpotList.list) {
+        for (spot in currentList) {
             val mOptions = MarkerOptions().position(spot.latLng).title(spot.name)
 
             if (spot.cost) {
@@ -322,7 +322,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
-    fun getLastLocation() {
+    private fun getLastLocation() {
         val mc = mContext
         if (mc != null) {
             val permissionCheck = ContextCompat.checkSelfPermission(mc, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -343,7 +343,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         }
     }
 
-    fun startLocationUpdates() {
+    private fun startLocationUpdates() {
         val mc = mContext
         if (mc != null) {
             val permissionCheck = ContextCompat.checkSelfPermission(mc, Manifest.permission.ACCESS_FINE_LOCATION)
