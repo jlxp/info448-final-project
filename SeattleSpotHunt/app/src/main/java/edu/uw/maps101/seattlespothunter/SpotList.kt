@@ -11,7 +11,6 @@ object SpotList {
         addAllSpots() //initalize list
     }
 
-
     //This helper function adds 20 new spot objects to the Array list for each of the predetermined tourists spots and intializes all of them to
     private fun addAllSpots() {
         // 1 Space Needle
@@ -114,16 +113,6 @@ object SpotList {
             "While officially known as Pier 52, this dock serves as the Seattle terminal for all Washington State Ferrys to Bainbridge Island and Bremerton.",
             true,
             LatLng(47.601716,-122.336667)))
-    }
-  
-    fun getPercent(): Double {
-        var count = 0
-        for (spot in list) {
-            if (spot.visited) {
-                count++
-            }
-        }
-        return 0.0 + count / list.size
     }
 
     @Parcelize

@@ -23,7 +23,11 @@ class MyProgressRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
         // TODO put in if statement to determine what icon to use here
-        holder.mIcon.setImageResource(R.drawable.ic_clear_checkmark)
+        if (item.visited) {
+            holder.mIcon.setImageResource(R.drawable.ic_checkmark)
+        } else {
+            holder.mIcon.setImageResource(R.drawable.ic_clear_checkmark)
+        }
         holder.mName.text = item.name
 //        holder.nDistance.text = "" + item.lat + " " + item.long
 

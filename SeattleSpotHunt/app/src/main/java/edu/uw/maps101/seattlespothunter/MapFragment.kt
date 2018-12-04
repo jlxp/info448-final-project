@@ -106,12 +106,12 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             var hitOne = false
 
             currentList.forEach() {
-                if (hitOne == false && it.visited == false) {
-                    val pitstopLoc = Location("")
-                    pitstopLoc.latitude = it.latLng.latitude
-                    pitstopLoc.longitude = it.latLng.longitude
+                if (!hitOne && !it.visited) {
+                    val pitStopLoc = Location("")
+                    pitStopLoc.latitude = it.latLng.latitude
+                    pitStopLoc.longitude = it.latLng.longitude
 
-                    val distanceInMeters = myLoc.distanceTo(pitstopLoc)
+                    val distanceInMeters = myLoc.distanceTo(pitStopLoc)
 
                     // If close distance
                     if (distanceInMeters <= 50) {
@@ -153,7 +153,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         val msg = "You made it to the ${spot.name}!"
         Toast.makeText(mContext, "$msg", Toast.LENGTH_LONG).show()
 
-        if (notificationsEnabled == true) {
+        if (notificationsEnabled) {
 
             // https://github.com/info448-au18/yama-greycabb/blob/master/app/src/main/java/edu/uw/greycabb/yama/MySmsReceiver.kt
             sendNotification(spot, "$msg", "Congratulations!", "${spot.desc}")
@@ -169,7 +169,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         var msg = "You're almost at the ${spot.name}!"
         Toast.makeText(mContext, "$msg", Toast.LENGTH_LONG).show()
 
-        if (notificationsEnabled == true) {
+        if (notificationsEnabled) {
             sendNotification(spot, "You're close to a pit stop!", "$msg", "")
         }
     }
@@ -236,7 +236,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
 
             mMap.isMyLocationEnabled = true
-            mMap.getUiSettings().setMyLocationButtonEnabled(true)
+            mMap.uiSettings.isMyLocationButtonEnabled = true
             setSpotsOnMap()
 
         } else {
@@ -317,6 +317,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         super.onStart()
         startLocationUpdates()
     }
+
     override fun onStop() {
         super.onStop()
         fusedLocationClient.removeLocationUpdates(locationCallback)
