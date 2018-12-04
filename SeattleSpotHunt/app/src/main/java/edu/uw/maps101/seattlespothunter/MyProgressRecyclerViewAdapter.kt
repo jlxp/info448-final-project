@@ -25,7 +25,7 @@ class MyProgressRecyclerViewAdapter(
         // TODO put in if statement to determine what icon to use here
         holder.mIcon.setImageResource(R.drawable.ic_clear_checkmark)
         holder.mName.text = item.name
-        holder.nDistance.text = "" + item.lat + " " + item.long
+//        holder.nDistance.text = "" + item.lat + " " + item.long
 
         with(holder.mView) {
             tag = item
