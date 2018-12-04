@@ -23,6 +23,8 @@ class TabActivity : AppCompatActivity() {
      */
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
+    private var currentList = SpotList.list
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tab)
@@ -37,11 +39,6 @@ class TabActivity : AppCompatActivity() {
 
         tab_layout.setupWithViewPager(container)
         tab_layout.setSelectedTabIndicatorColor(resources.getColor(R.color.white))
-
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
 
 
         // look into the file storage on user phone and check if catched file exists
