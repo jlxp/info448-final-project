@@ -1,17 +1,20 @@
 package edu.uw.maps101.seattlespothunter
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 
 import android.support.v7.app.AppCompatActivity
-import android.Manifest
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Color.parseColor
 import android.location.Location
@@ -21,9 +24,7 @@ import android.view.MenuInflater
 import com.google.android.gms.location.*
 import android.net.Uri
 import android.os.StrictMode
-import android.support.v4.app.ActivityCompat
 import com.google.android.gms.location.LocationRequest
-import android.support.v4.content.ContextCompat
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.ShareActionProvider
 import android.view.MenuItem
@@ -72,51 +73,17 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     // If the user walks in radius of one of the pit stops that they have not yet visited,
     // send them a notification
     private fun updatePitStopsIfWeWalkWithinRadiusOfAPitStop(myLoc: Location?) {
-        //Distance in meters
-
-        // _______________
-        // A. Closeby notification - within 300 meters, about 1/5 a mile
-        // 1. Doesn't occur if already reached
-        // 2. Mark the last visited closeby pitstop in this fragment
-        // 3. Don't send this notification if last visited = the same one
-        // 4. Don't send if already visited
-
-        // ________________
-        // B. Reached notification - within 100 meters (328 feet)
-        // 1. Save in local storage
-        // 2. Update the progress bar
-        // 3. Make the target point turn green
-        // 4. Send notification
-        // 5. Don't send if already visited
-
-        // Internal storage:
-        //      Key (name of spot)
-        //      value: Visited/not visited. true/false
 
         if (myLoc != null) {
 
-            /*
-                data class Spot (
-                val name: String,
-                val desc: String,
-                val cost: Boolean,
-                val lat: Int,
-                val long: Int,
-                var visited: Boolean = false
-            )
-            */
             // Go through each of the pitstops
             // https://stackoverflow.com/questions/2741403/get-the-distance-between-two-geo-points
-
-            // For testing... set this to whatever you want
-            // myLoc.latitude = 0.00
-            // myLoc.longitude = 0.00
 
             SpotList.list.forEach() {
                 if (it.visited == false) {
                     val pitstopLoc = Location("")
-                    pitstopLoc.latitude = it.lat.toDouble()
-                    pitstopLoc.longitude = it.long.toDouble()
+                    pitstopLoc.latitude = it.latLng.latitude
+                    pitstopLoc.longitude = it.latLng.longitude
 
                     val distanceInMeters = myLoc.distanceTo(pitstopLoc)
 
@@ -147,7 +114,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     private fun updateMarkerColors() {
         mMap.clear()
         SpotList.list.forEach() {
-            val loc = LatLng(it.lat.toDouble(), it.long.toDouble())
+            val loc = LatLng(it.latLng.latitude, it.latLng.longitude)
             val mo = MarkerOptions()
                 .position(loc)
                 .title(it.name)
@@ -221,10 +188,39 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Add a marker in Sydney and move the camera
-//        val sydney = LatLng(-34.0, 151.0)
-//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        //move the camera to Seattle
+        val seattle = LatLng(47.608013, -122.335167)
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seattle, 10.toFloat()))
+
+        val permissionCheck = ContextCompat.checkSelfPermission(context as Context, Manifest.permission.ACCESS_FINE_LOCATION)
+        if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+
+            mMap.isMyLocationEnabled = true
+            mMap.getUiSettings().setMyLocationButtonEnabled(true)
+            setSpotsOnMap()
+
+        } else {
+            ActivityCompat.requestPermissions(activity as Activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2)
+        }
+
+    }
+
+    //This methods adds all markers for the current version of SpotList
+    fun setSpotsOnMap() {
+        for (spot in SpotList.list) {
+            val mOptions = MarkerOptions().position(spot.latLng).title(spot.name)
+
+            if (spot.cost) {
+                mOptions.snippet("$")
+            }
+
+            if (spot.visited) {
+                mOptions.icon(BitmapDescriptorFactory.defaultMarker(0.toFloat()))
+            } else {
+                mOptions.icon(BitmapDescriptorFactory.defaultMarker(124.toFloat()))
+            }
+            mMap.addMarker(mOptions)
+        }
     }
 
     companion object {
@@ -349,15 +345,5 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
-
-
-
-
-
-
-
-
-
-
 
 }
