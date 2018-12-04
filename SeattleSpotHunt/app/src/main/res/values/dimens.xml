@@ -13,4 +13,12 @@
     <dimen name="progress_background_width">5dp</dimen>
     <dimen name="progress_indicator_width">10dp</dimen>
     <dimen name="progress_icon_size">40dp</dimen>
+
+    <!--List View Dimens-->
+    <dimen name="spot_name">16sp</dimen>
+    <dimen name="spot_desc">14sp</dimen>
+    <dimen name="basic_padding">16dp</dimen>
+    <dimen name="card_min_height">64dp</dimen>
+    <dimen name="basic_margin">16dp</dimen>
+    <dimen name="card_top_margin">8dp</dimen>
 </resources>

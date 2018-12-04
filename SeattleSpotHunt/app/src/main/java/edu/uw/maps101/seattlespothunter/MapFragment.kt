@@ -257,10 +257,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             }
 
             if (spot.visited) {
-                //mOptions.icon(BitmapDescriptorFactory.defaultMarker(0.toFloat()))
                 mOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
             } else {
-                //mOptions.icon(BitmapDescriptorFactory.defaultMarker(124.toFloat()))
                 mOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
             }
             mMap.addMarker(mOptions)
@@ -305,7 +303,6 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                 //mMap.moveCamera(CameraUpdateFactory.newLatLng(newLL))
             }
 
-            // Don't draw new polyline if we haven't moved at all
             if (location.latitude != lat || location.longitude != lng) {
                 lat = location.latitude
                 lng = location.longitude
