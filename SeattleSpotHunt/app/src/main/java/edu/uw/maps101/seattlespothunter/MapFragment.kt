@@ -112,7 +112,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             // myLoc.latitude = 0.00
             // myLoc.longitude = 0.00
 
-            SpotList.LIST.forEach() {
+            SpotList.list.forEach() {
                 if (it.visited == false) {
                     val pitstopLoc = Location("")
                     pitstopLoc.latitude = it.lat.toDouble()
@@ -146,7 +146,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     // Update markers to be either red or green based on visited status
     private fun updateMarkerColors() {
         mMap.clear()
-        SpotList.LIST.forEach() {
+        SpotList.list.forEach() {
             val loc = LatLng(it.lat.toDouble(), it.long.toDouble())
             val mo = MarkerOptions()
                 .position(loc)
