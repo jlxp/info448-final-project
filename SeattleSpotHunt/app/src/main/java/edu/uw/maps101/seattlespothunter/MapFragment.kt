@@ -1,16 +1,19 @@
 package edu.uw.maps101.seattlespothunter
 
 import android.Manifest
+import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -19,12 +22,13 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+    private lateinit var locationCallback: LocationCallback
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getMapAsync(this)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
     }
 
     /**
@@ -41,27 +45,37 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
         //move the camera to Seattle
         val seattle = LatLng(47.608013, -122.335167)
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(seattle))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seattle, 10.toFloat()))
 
-        //Initialize Google Play Services
-        val permissionCheck = ContextCompat.checkSelfPermission(, Manifest.permission.ACCESS_FINE_LOCATION)
+        val permissionCheck = ContextCompat.checkSelfPermission(context as Context, Manifest.permission.ACCESS_FINE_LOCATION)
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
-            //access last location, asynchronously!
-            mMap.setMyLocationEnabled(true);
-//            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location ->
-//                currentLatLng = LatLng(location.latitude, location.longitude)
-//                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 20.toFloat()))
-//                saveFile()
-//            }
+
+            mMap.isMyLocationEnabled = true
+            mMap.getUiSettings().setMyLocationButtonEnabled(true)
+            setSpotsOnMap()
+
         } else {
-            //ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LAST_LOCATION_REQUEST_CODE)
+            ActivityCompat.requestPermissions(activity as Activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2)
         }
 
-        mMap.getUiSettings().setMyLocationButtonEnabled(true)
     }
 
+    //This methods adds all markers for the current version of SpotList
     fun setSpotsOnMap() {
+        for (spot in SpotList.list) {
+            val mOptions = MarkerOptions().position(spot.latLng).title(spot.name)
 
+            if (spot.cost) {
+                mOptions.snippet("$")
+            }
+
+            if (spot.visited) {
+                mOptions.icon(BitmapDescriptorFactory.defaultMarker(0.toFloat()))
+            } else {
+                mOptions.icon(BitmapDescriptorFactory.defaultMarker(124.toFloat()))
+            }
+            mMap.addMarker(mOptions)
+        }
     }
 
     companion object {
