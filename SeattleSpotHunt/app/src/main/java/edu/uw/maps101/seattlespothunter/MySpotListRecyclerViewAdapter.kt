@@ -5,19 +5,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-
-
-import edu.uw.maps101.seattlespothunter.SpotListFragment.OnListFragmentInteractionListener
-import edu.uw.maps101.seattlespothunter.dummy.DummyContent.DummyItem
-
 import kotlinx.android.synthetic.main.fragment_spotlist.view.*
 
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
- * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
- */
 class MySpotListRecyclerViewAdapter(
     private val mValues: List<SpotList.Spot>
 ) : RecyclerView.Adapter<MySpotListRecyclerViewAdapter.ViewHolder>() {

@@ -1,6 +1,7 @@
 package edu.uw.maps101.seattlespothunter
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -8,26 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.brkckr.circularprogressbar.CircularProgressBar
+import java.util.*
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [ProgressFragment.OnListFragmentInteractionListener] interface.
- */
 class ProgressFragment : Fragment() {
 
-    // TODO: Customize parameters
-//    private var columnCount = 1
-
     private lateinit var circularProgressBar: CircularProgressBar
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        arguments?.let {
-//            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,16 +25,16 @@ class ProgressFragment : Fragment() {
         val percent = SpotList.getPercent()
         circularProgressBar.progressValue = percent.toFloat()
         view.findViewById<TextView>(R.id.progress_percentage).text = percent.toString() + "%"
-        view.findViewById<RecyclerView>(R.id.progress_list).adapter = MyProgressRecyclerViewAdapter(SpotList.list)
+        view.findViewById<RecyclerView>(R.id.progress_list).adapter = MyProgressRecyclerViewAdapter(arguments!!.getParcelableArrayList(MapFragment.LIST_ID))
 
         return view
     }
 
     companion object {
-//        // TODO: Customize parameter argument names
-//        const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
-        fun newInstance() = ProgressFragment()
+        fun newInstance(currentList: List<SpotList.Spot>) = ProgressFragment().apply {
+            arguments = Bundle().apply {
+                putParcelableArrayList(MapFragment.LIST_ID, currentList as ArrayList<out Parcelable>)
+            }
+        }
     }
 }
