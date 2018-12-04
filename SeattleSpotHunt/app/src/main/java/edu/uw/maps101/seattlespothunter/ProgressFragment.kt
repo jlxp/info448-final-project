@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.brkckr.circularprogressbar.CircularProgressBar
+import com.google.android.gms.maps.model.LatLng
 import java.util.*
 
 class ProgressFragment : Fragment() {
@@ -44,9 +45,11 @@ class ProgressFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(currentList: List<SpotList.Spot>) = ProgressFragment().apply {
+        fun newInstance(currentList: List<SpotList.Spot>, currentLocation: LatLng) = ProgressFragment().apply {
             arguments = Bundle().apply {
                 putParcelableArrayList(MapFragment.LIST_ID, currentList as ArrayList<out Parcelable>)
+                putDouble("lat", currentLocation.latitude)
+                putDouble("lng", currentLocation.longitude)
             }
         }
     }

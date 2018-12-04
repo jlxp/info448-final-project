@@ -3,15 +3,16 @@ package edu.uw.maps101.seattlespothunter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import com.google.android.gms.maps.model.LatLng
 
-class SectionsPagerAdapter(fm: FragmentManager, val currentList: List<SpotList.Spot>) : FragmentPagerAdapter(fm) {
+class SectionsPagerAdapter(fm: FragmentManager, val currentList: List<SpotList.Spot>, val currentLocation: LatLng) : FragmentPagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
         var fragment: Fragment
         when (position) {
             0 -> fragment = MapFragment.newInstance(currentList)
             1 -> fragment = SpotListFragment.newInstance(currentList)
-            2 -> fragment = ProgressFragment.newInstance(currentList)
+            2 -> fragment = ProgressFragment.newInstance(currentList, currentLocation)
             else -> fragment = MapFragment.newInstance(currentList)
         }
         return fragment

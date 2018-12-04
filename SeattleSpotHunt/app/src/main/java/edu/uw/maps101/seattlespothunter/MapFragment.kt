@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
+import kotlin.math.ln
 
 class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
@@ -57,6 +58,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     internal interface OnSpotVisitedListener {
         fun updateCurrentList(currentList: List<SpotList.Spot>)
+        fun passCurrentLocatoin(latLng: LatLng)
         fun testDataPassed(testString: String)
     }
 
@@ -307,6 +309,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                 lat = location.latitude
                 lng = location.longitude
             }
+            mOnSpotVisitedListener!!.passCurrentLocatoin(LatLng(lat, lng))
         }
     }
 

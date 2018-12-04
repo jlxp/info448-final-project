@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_tab.*
@@ -24,7 +25,11 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
      */
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
 
-    private var currentList = SpotList.list
+    private lateinit var currentList: ArrayList<SpotList.Spot>
+
+    private lateinit var currentLocation: LatLng
+
+
     // Get the directory for the app's private documents directory.
     lateinit var file: File
 
@@ -37,18 +42,6 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
         setContentView(R.layout.activity_tab)
 
         setSupportActionBar(toolbar)
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, currentList)
-
-        // Set up the ViewPager with the sections adapter.
-        container.adapter = mSectionsPagerAdapter
-
-        tab_layout.setupWithViewPager(container)
-        tab_layout.setSelectedTabIndicatorColor(resources.getColor(R.color.white))
-
-        Log.v("TabAct", testing)
-
         file = File(this@TabActivity.getExternalFilesDir(
             Environment.DIRECTORY_DOCUMENTS), "CacheData") // ~/Documents/CacheData
 
@@ -74,12 +67,30 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
         } else {
             currentList = SpotList.list
         }
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, currentList, currentLocation)
+
+        // Set up the ViewPager with the sections adapter.
+        container.adapter = mSectionsPagerAdapter
+
+        tab_layout.setupWithViewPager(container)
+        tab_layout.setSelectedTabIndicatorColor(resources.getColor(R.color.white))
+
+        Log.v("TabAct", testing)
+
 
     }
 
     override fun updateCurrentList(currentList: List<SpotList.Spot>) {
         this.currentList = currentList as ArrayList<SpotList.Spot>
+        mSectionsPagerAdapter!!.notifyDataSetChanged()
         saveFile()
+    }
+
+    override fun passCurrentLocatoin(latLng: LatLng) {
+        currentLocation = latLng
+        mSectionsPagerAdapter!!.notifyDataSetChanged()
     }
 
     override fun testDataPassed(testString: String) {
