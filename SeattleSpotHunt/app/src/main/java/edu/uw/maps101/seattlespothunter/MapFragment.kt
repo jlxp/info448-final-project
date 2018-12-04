@@ -27,6 +27,7 @@ import android.view.MenuInflater
 import com.google.android.gms.location.*
 import android.net.Uri
 import android.os.StrictMode
+import android.preference.PreferenceManager
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import com.google.android.gms.location.LocationRequest
@@ -134,25 +135,32 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     // Within 50 meters of pit stop
     private fun notifyReached(spot: SpotList.Spot) {
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(mContext)
+        val notificationsEnabled = preferences.getBoolean("notifications_new_message", true)
+
         val msg = "You made it to the ${spot.name}!"
         Toast.makeText(mContext, "$msg", Toast.LENGTH_LONG).show()
 
-        // Check if notifications are enabled in settings
-        // do this
+        if (notificationsEnabled == true) {
 
-        // https://github.com/info448-au18/yama-greycabb/blob/master/app/src/main/java/edu/uw/greycabb/yama/MySmsReceiver.kt
-        sendNotification(spot, "$msg", "Congratulations!", "${spot.desc}")
+            // https://github.com/info448-au18/yama-greycabb/blob/master/app/src/main/java/edu/uw/greycabb/yama/MySmsReceiver.kt
+            sendNotification(spot, "$msg", "Congratulations!", "${spot.desc}")
+        }
     }
 
     // Within 300 meters of pit stop
     private fun notifyAlmostReached(spot: SpotList.Spot) {
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(mContext)
+        val notificationsEnabled = preferences.getBoolean("notifications_new_message", true)
+
         var msg = "You're almost at the ${spot.name}!"
         Toast.makeText(mContext, "$msg", Toast.LENGTH_LONG).show()
 
-        // Check if notifications are enabled in settings
-        // do this
-
-        sendNotification(spot, "You're close to a pit stop!", "$msg", "")
+        if (notificationsEnabled == true) {
+            sendNotification(spot, "You're close to a pit stop!", "$msg", "")
+        }
     }
 
     private fun sendNotification(spot: SpotList.Spot, title: String, msg: String, longMsg: String) {
