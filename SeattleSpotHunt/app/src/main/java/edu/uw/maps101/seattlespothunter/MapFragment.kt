@@ -5,8 +5,6 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 
 import android.support.v7.app.AppCompatActivity
 import android.Manifest
@@ -31,8 +29,7 @@ import android.support.v7.widget.ShareActionProvider
 import android.view.MenuItem
 import android.widget.TextView
 import android.widget.Toast
-import com.google.android.gms.maps.model.Polyline
-import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.gms.maps.model.*
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileInputStream
@@ -44,7 +41,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     private var mContext: Context? = null
 
     private lateinit var mMap: GoogleMap
-    private val TAG = "Map"
+    private val TAG = "MapFragment"
 
     private val LAST_LOCATION_REQUEST_CODE = 1
     private val ONGOING_LOCATION_REQUEST_CODE = 2
@@ -52,6 +49,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     private val noLocation = -500.000
     private var lat = noLocation
     private var lng = noLocation
+
+    private var lastPitStopInRange = ""
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
@@ -67,9 +66,148 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         if (mc != null) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(mc)
         }
-        //first fun goes here
         getLastLocation()
     }
+
+    // If the user walks in radius of one of the pit stops that they have not yet visited,
+    // send them a notification
+    private fun updatePitStopsIfWeWalkWithinRadiusOfAPitStop(myLoc: Location?) {
+        //Distance in meters
+
+        // _______________
+        // A. Closeby notification - within 300 meters, about 1/5 a mile
+        // 1. Doesn't occur if already reached
+        // 2. Mark the last visited closeby pitstop in this fragment
+        // 3. Don't send this notification if last visited = the same one
+        // 4. Don't send if already visited
+
+        // ________________
+        // B. Reached notification - within 100 meters (328 feet)
+        // 1. Save in local storage
+        // 2. Update the progress bar
+        // 3. Make the target point turn green
+        // 4. Send notification
+        // 5. Don't send if already visited
+
+        // Internal storage:
+        //      Key (name of spot)
+        //      value: Visited/not visited. true/false
+
+        if (myLoc != null) {
+
+            /*
+                data class Spot (
+                val name: String,
+                val desc: String,
+                val cost: Boolean,
+                val lat: Int,
+                val long: Int,
+                var visited: Boolean = false
+            )
+            */
+            // Go through each of the pitstops
+            // https://stackoverflow.com/questions/2741403/get-the-distance-between-two-geo-points
+
+            // For testing... set this to whatever you want
+            // myLoc.latitude = 0.00
+            // myLoc.longitude = 0.00
+
+            SpotList.LIST.forEach() {
+                if (it.visited == false) {
+                    val pitstopLoc = Location("")
+                    pitstopLoc.latitude = it.lat.toDouble()
+                    pitstopLoc.longitude = it.long.toDouble()
+
+                    val distanceInMeters = myLoc.distanceTo(pitstopLoc)
+
+                    // If close distance
+                    if (distanceInMeters <= 50) {
+                        it.visited = true
+
+                        // Send notification: You've reached the location!
+                        notifyReached(it)
+
+                        // Change the pointer to become green
+
+                        // Update the progress bar (if necessary)
+
+                    } else if (distanceInMeters <= 300) {
+                        if (lastPitStopInRange != it.name) {
+                            lastPitStopInRange = it.name
+                            // Send notification: you're in range!
+                            notifyAlmostReached(it)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Update markers to be either red or green based on visited status
+    private fun updateMarkerColors() {
+        mMap.clear()
+        SpotList.LIST.forEach() {
+            val loc = LatLng(it.lat.toDouble(), it.long.toDouble())
+            val mo = MarkerOptions()
+                .position(loc)
+                .title(it.name)
+
+            // Visited => Green
+            if (it.visited == true) {
+                mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+            } else { // Unvisited => Red
+                mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+            }
+            // When you click on any marker, go to the descriptive view of it
+            mMap.addMarker(mo)
+            goToDescriptiveView(it.name)
+        }
+    }
+
+    // See
+    private fun goToDescriptiveView(pitStopName: String) {
+        // Some intent stuff goes here...
+    }
+
+    // Within 50 meters of pit stop
+    private fun notifyReached(spot: SpotList.Spot) {
+        Toast.makeText(mContext, "You made it to the ${spot.name}!", Toast.LENGTH_LONG).show()
+        Log.v(TAG, "888AAA")
+
+        // Check if notifications are enabled in settings
+
+        // https://github.com/info448-au18/yama-greycabb/blob/master/app/src/main/java/edu/uw/greycabb/yama/MySmsReceiver.kt
+    }
+
+    // Within 300 meters of pit stop
+    private fun notifyAlmostReached(spot: SpotList.Spot) {
+        Toast.makeText(mContext, "You're almost at the ${spot.name}!", Toast.LENGTH_LONG).show()
+        Log.v(TAG, "999BBB")
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Manipulates the map once available.
@@ -114,7 +252,11 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     // When location is updated
     private fun displayLocation(location: Location?) {
+
+        Log.v(TAG, "Received location: $location")
+
         if (location != null) {
+            updatePitStopsIfWeWalkWithinRadiusOfAPitStop(location)
             Toast.makeText(activity, "Received location: $location", Toast.LENGTH_SHORT).show()
             val newLL = LatLng(location.latitude, location.longitude)
 
