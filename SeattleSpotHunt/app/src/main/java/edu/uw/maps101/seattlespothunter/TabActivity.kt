@@ -11,8 +11,7 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_tab.*
 import java.io.File
 
-class TabActivity : AppCompatActivity() {
-
+class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
      * fragments for each of the sections. We use a
@@ -25,6 +24,8 @@ class TabActivity : AppCompatActivity() {
 
     private var currentList = SpotList.list
 
+    var testing = "test string in Tab Activity"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tab)
@@ -32,7 +33,7 @@ class TabActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
+        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, currentList)
 
         // Set up the ViewPager with the sections adapter.
         container.adapter = mSectionsPagerAdapter
@@ -40,12 +41,23 @@ class TabActivity : AppCompatActivity() {
         tab_layout.setupWithViewPager(container)
         tab_layout.setSelectedTabIndicatorColor(resources.getColor(R.color.white))
 
+        Log.v("TabAct", testing)
+
 
         // look into the file storage on user phone and check if catched file exists
         // if it exists read in the data
         // else create new spot list and save it to storage and read in that file
         // pass read in list to all three fragments??
 
+    }
+
+    override fun updateCurrentList(currentList: List<SpotList.Spot>) {
+        this.currentList = currentList as ArrayList<SpotList.Spot>
+    }
+
+    override fun testDataPassed(testString: String) {
+        testing = testString
+        Log.v("TabAct: testDataPassed", testing)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

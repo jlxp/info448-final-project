@@ -1,42 +1,26 @@
 package edu.uw.maps101.seattlespothunter
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
+import android.os.Parcelable
+import android.os.StrictMode
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
+import android.util.Log
+import android.widget.Toast
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-
-import android.Manifest
-import android.app.Activity
-import android.app.NotificationManager
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.Color.parseColor
-import android.location.Location
-import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import com.google.android.gms.location.*
-
-import android.net.Uri
-import android.os.StrictMode
-import android.support.v4.app.ActivityCompat
-import com.google.android.gms.location.LocationRequest
-
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.MenuItemCompat
-import android.support.v7.widget.ShareActionProvider
-import android.view.MenuItem
-import android.widget.TextView
-import android.widget.Toast
-import com.google.android.gms.maps.model.*
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileInputStream
-import java.io.InputStreamReader
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import java.util.*
 
 class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
@@ -57,6 +41,16 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
+    private lateinit var currentList: ArrayList<SpotList.Spot>
+
+    private var mOnSpotVisitedListener: OnSpotVisitedListener? = null
+
+    var test = "this is a test string in MapFragment"
+
+    internal interface OnSpotVisitedListener {
+        fun updateCurrentList(currentList: List<SpotList.Spot>)
+        fun testDataPassed(testString: String)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -68,6 +62,18 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
         getLastLocation() //first time
 
+        mOnSpotVisitedListener?.testDataPassed(test)
+
+        currentList = arguments!!.getParcelableArrayList(LIST_ID)
+
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        mOnSpotVisitedListener = context as? OnSpotVisitedListener
+        if (mOnSpotVisitedListener == null) {
+            throw ClassCastException("$context must implement OnSpotVisitedListener")
+        }
     }
 
     // If the user walks in radius of one of the pit stops that they have not yet visited,
@@ -113,7 +119,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             // myLoc.latitude = 0.00
             // myLoc.longitude = 0.00
 
-            SpotList.list.forEach() {
+            currentList.forEach() {
                 if (it.visited == false) {
                     val pitstopLoc = Location("")
                     pitstopLoc.latitude = it.latLng.latitude
@@ -124,7 +130,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                     // If close distance
                     if (distanceInMeters <= 50) {
                         it.visited = true
-
+                        mOnSpotVisitedListener?.updateCurrentList(currentList)
                         // Send notification: You've reached the location!
                         notifyReached(it)
 
@@ -147,7 +153,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     // Update markers to be either red or green based on visited status
     private fun updateMarkerColors() {
         mMap.clear()
-        SpotList.list.forEach() {
+        currentList.forEach() {
             val loc = it.latLng
             val mo = MarkerOptions()
                     .position(loc)
@@ -301,10 +307,16 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     companion object {
 
+        const val LIST_ID = "spot_list"
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        fun newInstance(): MapFragment = MapFragment()
+        fun newInstance(currentList: List<SpotList.Spot>): MapFragment = MapFragment().apply {
+            arguments = Bundle().apply {
+                putParcelableArrayList(LIST_ID, currentList as ArrayList<out Parcelable>)
+            }
+        }
     }
 }
