@@ -18,7 +18,6 @@
     <dimen name="spot_name">16sp</dimen>
     <dimen name="spot_desc">14sp</dimen>
     <dimen name="basic_padding">16dp</dimen>
+    <dimen name="half_basic_padding">8dp</dimen>
     <dimen name="card_min_height">64dp</dimen>
-    <dimen name="basic_margin">16dp</dimen>
-    <dimen name="card_top_margin">8dp</dimen>
 </resources>

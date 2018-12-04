@@ -20,7 +20,10 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/basic_padding"
+                android:paddingLeft="@dimen/basic_padding"
+                android:paddingRight="@dimen/basic_padding"
+                android:paddingTop="@dimen/basic_padding"
+                android:paddingBottom="@dimen/half_basic_padding"
                 android:textSize="@dimen/spot_name"
                 android:textStyle="bold"
         />
@@ -30,7 +33,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
-                android:padding="@dimen/basic_padding"
+                android:paddingLeft="@dimen/basic_padding"
+                android:paddingRight="@dimen/basic_padding"
+                android:paddingTop="@dimen/half_basic_padding"
+                android:paddingBottom="@dimen/basic_padding"
                 android:textSize="@dimen/spot_desc"
         />
 
