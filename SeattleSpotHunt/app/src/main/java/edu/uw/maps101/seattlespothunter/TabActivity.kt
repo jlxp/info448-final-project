@@ -37,11 +37,6 @@ class TabActivity : AppCompatActivity() {
         tab_layout.setupWithViewPager(container)
         tab_layout.setSelectedTabIndicatorColor(resources.getColor(R.color.white))
 
-//        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

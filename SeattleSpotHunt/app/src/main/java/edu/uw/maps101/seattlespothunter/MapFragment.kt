@@ -29,6 +29,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         getMapAsync(this)
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
+
     }
 
     /**
