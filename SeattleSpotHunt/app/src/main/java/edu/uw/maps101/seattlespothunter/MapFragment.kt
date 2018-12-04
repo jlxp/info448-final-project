@@ -76,11 +76,17 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
         if (myLoc != null) {
 
+            // Location testing
+            //myLoc.latitude = 47.6206537
+            //myLoc.longitude = -122.3487400
+
             // Go through each of the pitstops
             // https://stackoverflow.com/questions/2741403/get-the-distance-between-two-geo-points
 
+            var hitOne = false
+
             SpotList.list.forEach() {
-                if (it.visited == false) {
+                if (hitOne == false && it.visited == false) {
                     val pitstopLoc = Location("")
                     pitstopLoc.latitude = it.latLng.latitude
                     pitstopLoc.longitude = it.latLng.longitude
@@ -93,12 +99,15 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
                         // Send notification: You've reached the location!
                         notifyReached(it)
+                        setSpotsOnMap()
+
+                        hitOne = true
 
                         // Change the pointer to become green
 
                         // Update the progress bar (if necessary)
 
-                    } else if (distanceInMeters <= 300) {
+                    } else if (distanceInMeters <= 100) {
                         if (lastPitStopInRange != it.name) {
                             lastPitStopInRange = it.name
                             // Send notification: you're in range!
@@ -189,7 +198,6 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         mMap.clear()
 
         for (spot in SpotList.list) {
-            Log.v(TAG, "Beeep")
             val mOptions = MarkerOptions().position(spot.latLng).title(spot.name)
 
             if (spot.cost) {
@@ -233,13 +241,15 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
 
     // When location is updated
-    private fun displayLocation(location: Location?) {
+    private fun updateLocation(location: Location?) {
 
-        Log.v(TAG, "Received location: $location")
+        //Log.v(TAG, "Received location: $location")
+
+
 
         if (location != null) {
             updatePitStopsIfWeWalkWithinRadiusOfAPitStop(location)
-            Toast.makeText(activity, "Received location: $location", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(activity, "Received location: $location", Toast.LENGTH_SHORT).show()
             val newLL = LatLng(location.latitude, location.longitude)
 
             // Move map to start position on start
@@ -275,7 +285,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                 fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                     //Log.v(TAG, "$location")
 
-                    displayLocation(location)
+                    updateLocation(location)
                 }
             } else {
                 ActivityCompat.requestPermissions(
@@ -300,7 +310,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                 locationCallback = object : LocationCallback() {
                     override fun onLocationResult(locationResult: LocationResult?) {
                         locationResult ?: return
-                        displayLocation(locationResult.locations[0])
+                        updateLocation(locationResult.locations[0])
                     }
                 }
                 fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
