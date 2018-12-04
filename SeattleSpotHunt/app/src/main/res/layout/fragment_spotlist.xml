@@ -7,11 +7,12 @@
         android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="@dimen/card_min_height"
         card_view:cardCornerRadius="4dp"
-        android:padding="6dp"
+        android:padding="@dimen/basic_padding"
         android:layout_margin="6dp">
 
-    <LinearLayout android:layout_width="match_parent"
+    <RelativeLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:orientation="vertical">
 
@@ -19,14 +20,33 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp"/>
+                android:paddingLeft="@dimen/basic_padding"
+                android:paddingRight="@dimen/basic_padding"
+                android:paddingTop="@dimen/basic_padding"
+                android:paddingBottom="@dimen/half_basic_padding"
+                android:textSize="@dimen/spot_name"
+                android:textStyle="bold"
+        />
 
         <TextView
                 android:id="@+id/desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp"
+                android:layout_below="@id/name"
+                android:paddingLeft="@dimen/basic_padding"
+                android:paddingRight="@dimen/basic_padding"
+                android:paddingTop="@dimen/half_basic_padding"
+                android:paddingBottom="@dimen/basic_padding"
+                android:textSize="@dimen/spot_desc"
         />
-    </LinearLayout>
+
+        <ImageView
+                android:id="@+id/cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+        />
+
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

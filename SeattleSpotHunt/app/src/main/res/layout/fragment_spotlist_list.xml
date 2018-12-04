@@ -7,8 +7,10 @@
         android:name="edu.uw.maps101.seattlespothunter.SpotListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:paddingLeft="@dimen/basic_padding"
+        android:paddingRight="@dimen/basic_padding"
+        android:paddingTop="@dimen/half_basic_padding"
+        android:paddingBottom="@dimen/half_basic_padding"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:context=".SpotListFragment"
         tools:listitem="@layout/fragment_spotlist"/>

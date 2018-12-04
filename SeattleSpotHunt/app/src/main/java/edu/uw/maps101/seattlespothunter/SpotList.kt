@@ -33,8 +33,8 @@ object SpotList {
             "Art museum and sculpture garden showcasing Dale Chihuly's large, colorful glass works.",
             true,
             LatLng(47.620553, -122.350455)))
-        // 5 Seattle Art Mueseum
-        list.add(Spot("Seattle Art Mueseum",
+        // 5 Seattle Art Museum
+        list.add(Spot("Seattle Art Museum",
             "This roomy space hosts special exhibits and a permanent collection of both current and classic artworks.",
             true,
             LatLng(47.607701,-122.338558)))
@@ -110,7 +110,7 @@ object SpotList {
             LatLng(47.629839,-122.297179)))
         // 20 Coleman Dock
         list.add(Spot("Coleman Dock",
-            "While officially known as Pier 52, this dock serves as the Seattle terminal for all Washington State Ferrys to Bainbridge Island and Bremerton.",
+            "While officially known as Pier 52, this dock serves as the Seattle terminal for all Washington State Ferries to Bainbridge Island and Bremerton.",
             true,
             LatLng(47.601716,-122.336667)))
     }
