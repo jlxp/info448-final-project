@@ -2,7 +2,10 @@ package edu.uw.maps101.seattlespothunter
 
 import android.Manifest
 import android.app.Activity
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -24,6 +27,8 @@ import android.view.MenuInflater
 import com.google.android.gms.location.*
 import android.net.Uri
 import android.os.StrictMode
+import android.support.v4.app.NotificationCompat
+import android.support.v4.app.NotificationManagerCompat
 import com.google.android.gms.location.LocationRequest
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.ShareActionProvider
@@ -56,6 +61,9 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
 
+    private var notificationManager: NotificationManager? = null
+    private var CHANNEL_NAME : String = "notification"
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         getMapAsync(this)
@@ -77,8 +85,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         if (myLoc != null) {
 
             // Location testing
-            //myLoc.latitude = 47.6206537
-            //myLoc.longitude = -122.3487400
+            myLoc.latitude = 47.692200
+            myLoc.longitude = -122.402980
 
             // Go through each of the pitstops
             // https://stackoverflow.com/questions/2741403/get-the-distance-between-two-geo-points
@@ -107,7 +115,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
                         // Update the progress bar (if necessary)
 
-                    } else if (distanceInMeters <= 100) {
+                    } else if (distanceInMeters <= 500000) {
                         if (lastPitStopInRange != it.name) {
                             lastPitStopInRange = it.name
                             // Send notification: you're in range!
@@ -126,19 +134,70 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     // Within 50 meters of pit stop
     private fun notifyReached(spot: SpotList.Spot) {
-        Toast.makeText(mContext, "You made it to the ${spot.name}!", Toast.LENGTH_LONG).show()
-        Log.v(TAG, "888AAA")
+        val msg = "You made it to the ${spot.name}!"
+        Toast.makeText(mContext, "$msg", Toast.LENGTH_LONG).show()
 
         // Check if notifications are enabled in settings
+        // do this
 
         // https://github.com/info448-au18/yama-greycabb/blob/master/app/src/main/java/edu/uw/greycabb/yama/MySmsReceiver.kt
+        sendNotification(spot, "$msg", "Congratulations!", "${spot.desc}")
     }
 
     // Within 300 meters of pit stop
     private fun notifyAlmostReached(spot: SpotList.Spot) {
-        Toast.makeText(mContext, "You're almost at the ${spot.name}!", Toast.LENGTH_LONG).show()
-        Log.v(TAG, "999BBB")
+        var msg = "You're almost at the ${spot.name}!"
+        Toast.makeText(mContext, "$msg", Toast.LENGTH_LONG).show()
+
+        // Check if notifications are enabled in settings
+        // do this
+
+        sendNotification(spot, "You're close to a pit stop!", "$msg", "")
     }
+
+    private fun sendNotification(spot: SpotList.Spot, title: String, msg: String, longMsg: String) {
+        val mc = mContext as Context
+        if (mc != null) {
+            createNotificationChannel(mc)
+            notificationManager =
+                    mc.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            val channelID = CHANNEL_NAME
+
+            // Create the notification
+            val mBuilder = NotificationCompat.Builder(mc, channelID)
+                .setSmallIcon(R.drawable.ic_mtrl_chip_checked_circle)
+                .setContentTitle("$title")
+                .setContentText("$msg")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setStyle(NotificationCompat.BigTextStyle()
+                    .bigText("$msg $longMsg"))
+            ///.setContentIntent(intent)
+            //.addAction(R.drawable.design_password_eye, "View", intent)
+
+            // Send out the notification
+            with(NotificationManagerCompat.from(mc)) {
+                notify(109, mBuilder.build())
+            }
+        }
+    }
+
+    // Create notification channel on API > 26
+    private fun createNotificationChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = CHANNEL_NAME
+            val descriptionText = "Spot Notification"
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(name, name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+
 
 
 
