@@ -4,11 +4,10 @@ import android.app.IntentService
 import android.content.Intent
 import android.os.Environment
 import android.util.Log
+import com.google.gson.GsonBuilder
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 
 class SaveIntentService : IntentService("SaveIntentService") {
 

@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.support.v7.app.AppCompatActivity
-import android.util.JsonReader
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -13,7 +12,6 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_tab.*
 import java.io.File
-import java.io.BufferedReader
 
 class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
     /**
@@ -87,7 +85,6 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
     override fun testDataPassed(testString: String) {
         testing = testString
         Log.v("TabAct: testDataPassed", testing)
-        saveFile()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
