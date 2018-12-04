@@ -115,7 +115,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
                         // Update the progress bar (if necessary)
 
-                    } else if (distanceInMeters <= 500000) {
+                    } else if (distanceInMeters <= 100) {
                         if (lastPitStopInRange != it.name) {
                             lastPitStopInRange = it.name
                             // Send notification: you're in range!
