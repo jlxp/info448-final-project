@@ -110,27 +110,6 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         }
     }
 
-    // Update markers to be either red or green based on visited status
-    private fun updateMarkerColors() {
-        mMap.clear()
-        SpotList.list.forEach() {
-            val loc = LatLng(it.latLng.latitude, it.latLng.longitude)
-            val mo = MarkerOptions()
-                .position(loc)
-                .title(it.name)
-
-            // Visited => Green
-            if (it.visited == true) {
-                mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-            } else { // Unvisited => Red
-                mo.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
-            }
-            // When you click on any marker, go to the descriptive view of it
-            mMap.addMarker(mo)
-            goToDescriptiveView(it.name)
-        }
-    }
-
     // See
     private fun goToDescriptiveView(pitStopName: String) {
         // Some intent stuff goes here...
@@ -207,7 +186,10 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     //This methods adds all markers for the current version of SpotList
     fun setSpotsOnMap() {
+        mMap.clear()
+
         for (spot in SpotList.list) {
+            Log.v(TAG, "Beeep")
             val mOptions = MarkerOptions().position(spot.latLng).title(spot.name)
 
             if (spot.cost) {
@@ -215,11 +197,15 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             }
 
             if (spot.visited) {
-                mOptions.icon(BitmapDescriptorFactory.defaultMarker(0.toFloat()))
+                //mOptions.icon(BitmapDescriptorFactory.defaultMarker(0.toFloat()))
+                mOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
             } else {
-                mOptions.icon(BitmapDescriptorFactory.defaultMarker(124.toFloat()))
+                //mOptions.icon(BitmapDescriptorFactory.defaultMarker(124.toFloat()))
+                mOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
             }
             mMap.addMarker(mOptions)
+
+            // When you click on any marker, go to the descriptive view of it
         }
     }
 
@@ -258,11 +244,10 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
             // Move map to start position on start
             if (lat == noLocation) {
-                val marker = MarkerOptions().position(newLL).title("Starting location")
-                mMap.addMarker(marker)
-                mMap.moveCamera(CameraUpdateFactory.newLatLng(newLL))
+                //val marker = MarkerOptions().position(newLL).title("Starting location")
+                //mMap.addMarker(marker)
+                //mMap.moveCamera(CameraUpdateFactory.newLatLng(newLL))
             }
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(newLL))
 
             // Don't draw new polyline if we haven't moved at all
             if (location.latitude != lat || location.longitude != lng) {
