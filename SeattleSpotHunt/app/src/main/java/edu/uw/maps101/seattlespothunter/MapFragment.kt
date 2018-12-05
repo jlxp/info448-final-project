@@ -268,7 +268,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         mMap!!.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
             override fun onMarkerClick(marker: Marker): Boolean {
                 val intent = Intent(mContext, SpotDetailActivity::class.java).apply {
-                    SpotList.list.forEach {
+                    currentList.forEach {
                         if (it.name == marker.title) {
                             putExtra(SpotDetailFragment.SPOT_DETAIL_ID, it)
                         }
