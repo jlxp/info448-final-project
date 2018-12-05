@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.abc_activity_chooser_view.view.*
 import kotlinx.android.synthetic.main.fragment_spotlist.view.*
 
 class MySpotListRecyclerViewAdapter(
@@ -21,6 +22,12 @@ class MySpotListRecyclerViewAdapter(
         val item = mValues[position]
         holder.mName.text = item.name
         holder.mDesc.text = item.desc
+        holder.mImg.setImageResource(item.imgRef)
+        if (item.cost) {
+            holder.mCost.text = "$"
+        } else {
+            holder.mCost.text = "Free"
+        }
 
         with(holder.mView) {
             tag = item
@@ -43,5 +50,7 @@ class MySpotListRecyclerViewAdapter(
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mName = mView.name
         val mDesc = mView.desc
+        val mImg = mView.img
+        val mCost = mView.cost
     }
 }
