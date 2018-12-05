@@ -21,11 +21,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/basic_padding"
-                android:paddingRight="@dimen/basic_padding"
+                android:paddingRight="@dimen/half_basic_padding"
                 android:paddingTop="@dimen/basic_padding"
                 android:paddingBottom="@dimen/half_basic_padding"
                 android:textSize="@dimen/spot_name"
                 android:textStyle="bold"
+        />
+
+        <TextView
+                android:id="@+id/cost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="@dimen/half_basic_padding"
+                android:paddingRight="@dimen/basic_padding"
+                android:paddingTop="@dimen/basic_padding"
+                android:paddingBottom="@dimen/half_basic_padding"
+                android:textSize="@dimen/spot_desc"
         />
 
         <TextView
@@ -38,13 +50,6 @@
                 android:paddingTop="@dimen/half_basic_padding"
                 android:paddingBottom="@dimen/basic_padding"
                 android:textSize="@dimen/spot_desc"
-        />
-
-        <ImageView
-                android:id="@+id/cost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
         />
 
     </RelativeLayout>

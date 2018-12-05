@@ -21,6 +21,9 @@ class MySpotListRecyclerViewAdapter(
         val item = mValues[position]
         holder.mName.text = item.name
         holder.mDesc.text = item.desc
+        if (item.cost) {
+            holder.mCost.text = "$ This spot costs money to experience $"
+        }
 
         with(holder.mView) {
             tag = item
@@ -43,5 +46,6 @@ class MySpotListRecyclerViewAdapter(
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mName = mView.name
         val mDesc = mView.desc
+        val mCost = mView.cost
     }
 }
