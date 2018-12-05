@@ -63,6 +63,7 @@
                 android:paddingTop="@dimen/half_basic_padding"
                 android:paddingBottom="@dimen/basic_padding"
                 android:scaleType="centerInside"
+                android:src="@drawable/spot1img"
         />
 
     </RelativeLayout>
