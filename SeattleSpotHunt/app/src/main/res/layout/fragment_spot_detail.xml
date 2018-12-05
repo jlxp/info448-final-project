@@ -12,7 +12,8 @@
             android:layout_height="@dimen/max_pic_height"
             android:layout_gravity="fill_horizontal"
             android:scaleType="centerCrop"
-        android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"/>
+
     <TextView
             android:id="@+id/detail_name"
             android:layout_width="wrap_content"
