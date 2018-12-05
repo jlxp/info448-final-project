@@ -27,6 +27,7 @@ class MySpotListRecyclerViewAdapter(
             holder.mCost.text = "$"
         } else {
             holder.mCost.text = "Free"
+
         }
 
         with(holder.mView) {

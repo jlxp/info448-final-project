@@ -15,24 +15,12 @@ import kotlinx.android.synthetic.main.activity_tab.*
 import java.io.File
 
 class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
-    /**
-     * The [android.support.v4.view.PagerAdapter] that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * [android.support.v4.app.FragmentStatePagerAdapter].
-     */
+
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
-
     private lateinit var currentList: ArrayList<SpotList.Spot>
-
     private var currentLocation: LatLng = LatLng(0.0, 0.0)
-
-
     // Get the directory for the app's private documents directory.
-    lateinit var file: File
-
+    private lateinit var file: File
     private lateinit var filePath: Uri
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,11 +33,6 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
 
         filePath = Uri.Builder().appendPath(file.path).appendPath("cache.json").build()
 
-
-        // look into the file storage on user phone and check if catched file exists
-        // if it exists read in the data
-        // else create new spot list and save it to storage and read in that file
-        // pass read in list to all three fragments??
         var existingFile = File(filePath.path)
         if (existingFile.exists()) {
             // read in the data and set currentList to that list

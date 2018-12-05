@@ -3,7 +3,6 @@ package edu.uw.maps101.seattlespothunter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 
 class SectionsPagerAdapter(fm: FragmentManager, var currentList: List<SpotList.Spot>, var currentLocation: LatLng) : FragmentPagerAdapter(fm) {
