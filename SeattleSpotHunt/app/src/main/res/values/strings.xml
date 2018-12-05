@@ -8,6 +8,11 @@
     <string name="progress_title">of Seattle Spots Discovered</string>
     <string name="title_activity_spot_detail">SpotDetailActivity</string>
 
+    <string name="cost_message">This spot involves a fee for admission but you do not have to pay to unlock this location. Trying to save some cash? Most spots offer free or discounted day or events. Inquire with the organization to find out more.</string>
+    <string name="no_cost_message">This location is costs nothing to enjoy!</string>
+    <string name="visited_message">You have already visit this location. Keep exploring!</string>
+    <string name="not_visited_message">You have not yet visited this location, what are you waiting for?</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_settings">Settings</string>

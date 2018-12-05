@@ -23,6 +23,20 @@ class SpotDetailFragment : Fragment() {
             val spot = it.getParcelable<SpotList.Spot>(SPOT_DETAIL_ID)
             view.detail_name.text = spot.name
             view.detail_desc.text = spot.desc
+            view.detail_img.setImageResource(spot.imgRef)
+
+            if (spot.cost) {
+                view.detail_cost.text = getText(R.string.cost_message)
+            } else {
+                view.detail_cost.text = getText(R.string.no_cost_message)
+
+            }
+
+            if (spot.visited) {
+                view.detail_visit_status.text = getText(R.string.visited_message)
+            } else {
+                view.detail_visit_status.text = getText(R.string.not_visited_message)
+            }
         }
         return view
     }
