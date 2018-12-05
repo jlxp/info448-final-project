@@ -54,12 +54,9 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     private var mOnSpotVisitedListener: OnSpotVisitedListener? = null
 
-    var test = "this is a test string in MapFragment"
-
     internal interface OnSpotVisitedListener {
         fun updateCurrentList(currentList: List<SpotList.Spot>)
-        fun passCurrentLocatoin(latLng: LatLng)
-        fun testDataPassed(testString: String)
+        fun passCurrentLocation(latLng: LatLng)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -76,8 +73,6 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         getLastLocation()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
         getLastLocation() //first time
-
-        mOnSpotVisitedListener?.testDataPassed(test)
 
         currentList = arguments!!.getParcelableArrayList(LIST_ID)
 
@@ -309,7 +304,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                 lat = location.latitude
                 lng = location.longitude
             }
-            mOnSpotVisitedListener!!.passCurrentLocatoin(LatLng(lat, lng))
+            mOnSpotVisitedListener!!.passCurrentLocation(LatLng(lat, lng))
         }
     }
 

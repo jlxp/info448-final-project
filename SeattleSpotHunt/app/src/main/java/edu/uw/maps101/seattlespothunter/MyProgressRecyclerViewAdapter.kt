@@ -1,6 +1,7 @@
 package edu.uw.maps101.seattlespothunter
 
 import android.content.Intent
+import android.location.Location
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,12 @@ import android.widget.ImageView
 import android.widget.TextView
 
 import kotlinx.android.synthetic.main.fragment_progress.view.*
+import java.util.*
 
 class MyProgressRecyclerViewAdapter(
-    private val mValues: List<SpotList.Spot>
+    private val mValues: List<SpotList.Spot>,
+    val lat: Double,
+    val lng: Double
 ) : RecyclerView.Adapter<MyProgressRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,14 +26,31 @@ class MyProgressRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        // TODO put in if statement to determine what icon to use here
         if (item.visited) {
             holder.mIcon.setImageResource(R.drawable.ic_checkmark)
         } else {
             holder.mIcon.setImageResource(R.drawable.ic_clear_checkmark)
         }
         holder.mName.text = item.name
-//        holder.nDistance.text = "" + item.lat + " " + item.long
+
+        val itemLocation = Location("")
+        itemLocation.latitude = item.latLng.latitude
+        itemLocation.longitude = item.latLng.longitude
+
+        val currentLocation = Location("")
+        currentLocation.latitude = lat
+        currentLocation.longitude = lng
+
+        val distance = (currentLocation.distanceTo(itemLocation) * 0.000621371192).toInt()
+
+        var endString: String
+        if (distance == 1) {
+            endString = " mile away"
+        } else {
+            endString = " miles away"
+        }
+
+        holder.nDistance.text = "" + distance + endString
 
         with(holder.mView) {
             tag = item

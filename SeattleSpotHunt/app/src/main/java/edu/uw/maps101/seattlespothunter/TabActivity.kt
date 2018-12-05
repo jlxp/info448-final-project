@@ -27,15 +27,13 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
 
     private lateinit var currentList: ArrayList<SpotList.Spot>
 
-    private lateinit var currentLocation: LatLng
+    private var currentLocation: LatLng = LatLng(0.0, 0.0)
 
 
     // Get the directory for the app's private documents directory.
     lateinit var file: File
 
     private lateinit var filePath: Uri
-
-    var testing = "test string in Tab Activity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +60,6 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
 
             val type = object : TypeToken<ArrayList<SpotList.Spot>>() {}.type
             val resultList = gson.fromJson<ArrayList<SpotList.Spot>>(jsonSpotList, type)
-            Log.v("TabJOY", resultList.toString())
             currentList = resultList
         } else {
             currentList = SpotList.list
@@ -76,26 +73,17 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
 
         tab_layout.setupWithViewPager(container)
         tab_layout.setSelectedTabIndicatorColor(resources.getColor(R.color.white))
-
-        Log.v("TabAct", testing)
-
-
     }
 
     override fun updateCurrentList(currentList: List<SpotList.Spot>) {
         this.currentList = currentList as ArrayList<SpotList.Spot>
-        mSectionsPagerAdapter!!.notifyDataSetChanged()
+        mSectionsPagerAdapter!!.currentList = currentList
         saveFile()
     }
 
-    override fun passCurrentLocatoin(latLng: LatLng) {
+    override fun passCurrentLocation(latLng: LatLng) {
         currentLocation = latLng
-        mSectionsPagerAdapter!!.notifyDataSetChanged()
-    }
-
-    override fun testDataPassed(testString: String) {
-        testing = testString
-        Log.v("TabAct: testDataPassed", testing)
+        mSectionsPagerAdapter!!.currentLocation = currentLocation
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -118,7 +106,7 @@ class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
     }
 
     private fun saveFile() {
-        if (!file?.mkdirs()) {
+        if (!file.mkdirs()) {
             Log.e("TabActivity", "Directory not created")
             // will throw this message if the directory already exists due to rebuilding the app many times on the phone
         }
