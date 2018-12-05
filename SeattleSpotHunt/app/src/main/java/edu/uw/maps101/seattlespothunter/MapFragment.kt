@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -143,6 +144,9 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     }
 
     private fun sendNotification(spot: SpotList.Spot, title: String, msg: String, longMsg: String) {
+        val viewIntent = Intent(mContext, TabActivity::class.java)
+        val intent = PendingIntent.getActivity(mContext, 0, viewIntent, 0)
+
         val mc = mContext as Context
         if (mc != null) {
             createNotificationChannel(mc)
@@ -156,6 +160,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                 .setSmallIcon(R.drawable.ic_mtrl_chip_checked_circle)
                 .setContentTitle("$title")
                 .setContentText("$msg")
+                .setContentIntent(intent)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setStyle(NotificationCompat.BigTextStyle()
                     .bigText("$msg $longMsg"))
@@ -269,6 +274,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     // When location is updated
     private fun updateLocation(location: Location?) {
         if (location != null) {
+
             updatePitStopsIfWeWalkWithinRadiusOfAPitStop(location)
 
             if (location.latitude != lat || location.longitude != lng) {
