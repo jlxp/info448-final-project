@@ -24,6 +24,9 @@ User Stories
 6. As a user, I want to be notified if I am within range of a pit stop.
 7. But as a user, I also want to be able to turn off notifications of pit stops.
 
+Link to Figma:
+https://www.figma.com/file/bpBMS1qXn4XFfZcbW9kcF7N1/Screens?node-id=0%3A1
+
 Instructions on using app:
 
 1. Load the app. Make sure that you allow the app to access your location.
@@ -37,10 +40,9 @@ Instructions on using app:
 4. If you want to see which pit stops you have completed or not completed as well as your overall progress, click the right tab.
   - At the top is your overall progress as a percentage.
   - Below is each pit stop, each will have a checkmark if it has been visited
-5. As you walk around in real life, the app will detect if you are getting close to, or have arrived at a pit stop.
+5. As you walk around in real life, the app will detect if you are getting close to, or have arrived at a pit stop. This will mark the pit stop as having been visited in the Progress list (3rd tab), and make it turn blue on the map view (1st tab)
 6. You can turn off notifications in Settings which is at the top right.
 
 
-Link to Figma:
-https://www.figma.com/file/bpBMS1qXn4XFfZcbW9kcF7N1/Screens?node-id=0%3A1
+
 
