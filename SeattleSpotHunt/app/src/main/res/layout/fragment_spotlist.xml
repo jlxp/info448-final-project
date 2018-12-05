@@ -20,6 +20,7 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/cost"
                 android:paddingLeft="@dimen/basic_padding"
                 android:paddingRight="@dimen/half_basic_padding"
                 android:paddingTop="@dimen/basic_padding"
