@@ -17,7 +17,7 @@ import java.io.File
 class TabActivity : AppCompatActivity(), MapFragment.OnSpotVisitedListener {
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
-    private lateinit var currentList: ArrayList<SpotList.Spot>
+    private var currentList: ArrayList<SpotList.Spot> = SpotList.list
     private var currentLocation: LatLng = LatLng(0.0, 0.0)
     // Get the directory for the app's private documents directory.
     private lateinit var file: File
