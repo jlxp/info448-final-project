@@ -17,7 +17,6 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -33,27 +32,18 @@ import java.util.*
 class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     private var mContext: Context? = null
-
     private lateinit var mMap: GoogleMap
-    private val TAG = "MapFragment"
-
     private val LAST_LOCATION_REQUEST_CODE = 1
     private val ONGOING_LOCATION_REQUEST_CODE = 2
-
     private val noLocation = -500.000
     private var lat = noLocation
     private var lng = noLocation
-
     private var lastPitStopInRange = ""
-
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
-
     private var notificationManager: NotificationManager? = null
     private var CHANNEL_NAME : String = "notification"
-
     private lateinit var currentList: ArrayList<SpotList.Spot>
-
     private var mOnSpotVisitedListener: OnSpotVisitedListener? = null
 
     internal interface OnSpotVisitedListener {
@@ -90,13 +80,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     // If the user walks in radius of one of the pit stops that they have not yet visited,
     // send them a notification
     private fun updatePitStopsIfWeWalkWithinRadiusOfAPitStop(myLoc: Location?) {
-
         if (myLoc != null) {
-
-            // Location testing
-            //myLoc.latitude = 47.692200
-            //myLoc.longitude = -122.402980
-
             // Go through each of the pitstops
             // https://stackoverflow.com/questions/2741403/get-the-distance-between-two-geo-points
 
@@ -107,23 +91,16 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                     val pitStopLoc = Location("")
                     pitStopLoc.latitude = it.latLng.latitude
                     pitStopLoc.longitude = it.latLng.longitude
-
                     val distanceInMeters = myLoc.distanceTo(pitStopLoc)
-
                     // If close distance
                     if (distanceInMeters <= 50) {
                         it.visited = true
+                        // Update the progress bar
                         mOnSpotVisitedListener!!.updateCurrentList(currentList)
                         // Send notification: You've reached the location!
                         notifyReached(it)
                         setSpotsOnMap()
-
                         hitOne = true
-
-                        // Change the pointer to become green
-
-                        // Update the progress bar (if necessary)
-
                     } else if (distanceInMeters <= 100) {
                         if (lastPitStopInRange != it.name) {
                             lastPitStopInRange = it.name
@@ -136,14 +113,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         }
     }
 
-    // See
-    private fun goToDescriptiveView(pitStopName: String) {
-        // Some intent stuff goes here...
-    }
-
     // Within 50 meters of pit stop
     private fun notifyReached(spot: SpotList.Spot) {
-
         val preferences = PreferenceManager.getDefaultSharedPreferences(mContext)
         val notificationsEnabled = preferences.getBoolean("notifications_new_message", true)
 
@@ -188,8 +159,6 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setStyle(NotificationCompat.BigTextStyle()
                     .bigText("$msg $longMsg"))
-            ///.setContentIntent(intent)
-            //.addAction(R.drawable.design_password_eye, "View", intent)
 
             // Send out the notification
             with(NotificationManagerCompat.from(mc)) {
@@ -261,29 +230,24 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             }
             mMap.addMarker(mOptions)
 
-            // When you click on any marker, go to the descriptive view of it
         }
 
-
-
+        // When you click on any marker, go to the detail view of it
         mMap!!.setOnInfoWindowClickListener(object : GoogleMap.OnInfoWindowClickListener {
             override fun onInfoWindowClick(marker: Marker) {
-                    val intent = Intent(mContext, SpotDetailActivity::class.java).apply {
-                        currentList.forEach {
-                            if (it.name == marker.title) {
-                                putExtra(SpotDetailFragment.SPOT_DETAIL_ID, it)
-                            }
+                val intent = Intent(mContext, SpotDetailActivity::class.java).apply {
+                    currentList.forEach {
+                        if (it.name == marker.title) {
+                            putExtra(SpotDetailFragment.SPOT_DETAIL_ID, it)
                         }
-
-
                     }
-                    mContext?.startActivity(intent)
                 }
+                mContext?.startActivity(intent)
+            }
         })
     }
 
     companion object {
-
         const val LIST_ID = "spot_list"
 
         /**
@@ -304,19 +268,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     // When location is updated
     private fun updateLocation(location: Location?) {
-
-        //Log.v(TAG, "Received location: $location")
         if (location != null) {
             updatePitStopsIfWeWalkWithinRadiusOfAPitStop(location)
-            //Toast.makeText(activity, "Received location: $location", Toast.LENGTH_SHORT).show()
-            val newLL = LatLng(location.latitude, location.longitude)
-
-            // Move map to start position on start
-            if (lat == noLocation) {
-                //val marker = MarkerOptions().position(newLL).title("Starting location")
-                //mMap.addMarker(marker)
-                //mMap.moveCamera(CameraUpdateFactory.newLatLng(newLL))
-            }
 
             if (location.latitude != lat || location.longitude != lng) {
                 lat = location.latitude
@@ -343,8 +296,6 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
                 //access last location, asynchronously!
                 fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
-                    //Log.v(TAG, "$location")
-
                     updateLocation(location)
                 }
             } else {
@@ -383,6 +334,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             }
         }
     }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
             LAST_LOCATION_REQUEST_CODE -> { //if asked for last location
@@ -400,5 +352,4 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
-
 }

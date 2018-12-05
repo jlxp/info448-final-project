@@ -3,15 +3,12 @@ package edu.uw.maps101.seattlespothunter
 import android.app.IntentService
 import android.content.Intent
 import android.os.Environment
-import android.util.Log
 import com.google.gson.GsonBuilder
 import java.io.File
 import java.io.FileOutputStream
 import java.io.PrintWriter
 
 class SaveIntentService : IntentService("SaveIntentService") {
-
-    private val TAG = "AutoSave"
 
     /**
      * creates/writes a new file to the external storage of the phone
@@ -25,8 +22,6 @@ class SaveIntentService : IntentService("SaveIntentService") {
             val file = intent.extras.getString("filePath")
             val spotList = intent.extras.getCharSequenceArrayList("spotList")
             val jsonSpotList = gson.toJson(spotList)
-            Log.v("IntentService", spotList.toString())
-            Log.v("IntentService", jsonSpotList)
 
             val newFile = File(file)
             if (newFile.exists()) {
