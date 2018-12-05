@@ -196,7 +196,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
         //move the camera to Seattle
         val seattle = LatLng(47.608013, -122.335167)
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seattle, 10.toFloat()))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seattle, 12.toFloat()))
 
         val permissionCheck = ContextCompat.checkSelfPermission(context as Context, Manifest.permission.ACCESS_FINE_LOCATION)
         if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
@@ -224,9 +224,9 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             }
 
             if (spot.visited) {
-                mOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                mOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
             } else {
-                mOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                mOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
             }
             mMap.addMarker(mOptions)
 

@@ -109,7 +109,7 @@ object SpotList {
             true,
             LatLng(47.629839,-122.297179)))
         // 20 Coleman Dock
-        list.add(Spot("Coleman Dock",
+        list.add(Spot("Colman Dock",
             "While officially known as Pier 52, this dock serves as the Seattle terminal for all Washington State Ferries to Bainbridge Island and Bremerton.",
             true,
             LatLng(47.601716,-122.336667)))
