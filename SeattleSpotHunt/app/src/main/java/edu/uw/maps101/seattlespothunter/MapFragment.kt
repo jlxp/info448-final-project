@@ -26,7 +26,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
-import kotlin.math.ln
 
 class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
@@ -72,10 +71,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         }
         getLastLocation()
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(activity as Activity)
-        getLastLocation() //first time
 
         currentList = arguments!!.getParcelableArrayList(LIST_ID)
-
     }
 
     override fun onAttach(context: Context?) {

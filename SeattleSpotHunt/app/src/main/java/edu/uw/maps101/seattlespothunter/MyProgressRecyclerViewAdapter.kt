@@ -8,9 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-
 import kotlinx.android.synthetic.main.fragment_progress.view.*
-import java.util.*
 
 class MyProgressRecyclerViewAdapter(
     private val mValues: List<SpotList.Spot>,

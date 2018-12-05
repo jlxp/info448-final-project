@@ -3,7 +3,6 @@ package edu.uw.maps101.seattlespothunter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.app.FragmentStatePagerAdapter
 import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 
@@ -11,7 +10,6 @@ class SectionsPagerAdapter(fm: FragmentManager, var currentList: List<SpotList.S
 
     override fun getItem(position: Int): Fragment {
         var fragment: Fragment
-        Log.v("JOY:Sections", currentLocation.toString())
         when (position) {
             0 -> fragment = MapFragment.newInstance(currentList)
             1 -> fragment = SpotListFragment.newInstance(currentList)
