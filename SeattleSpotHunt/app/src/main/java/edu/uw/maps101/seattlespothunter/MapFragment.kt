@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
@@ -16,6 +17,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.NotificationManagerCompat
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -24,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.*
 
@@ -91,8 +94,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         if (myLoc != null) {
 
             // Location testing
-            myLoc.latitude = 47.692200
-            myLoc.longitude = -122.402980
+            //myLoc.latitude = 47.692200
+            //myLoc.longitude = -122.402980
 
             // Go through each of the pitstops
             // https://stackoverflow.com/questions/2741403/get-the-distance-between-two-geo-points
@@ -239,6 +242,8 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
     }
 
+
+
     //This methods adds all markers for the current version of SpotList
     private fun setSpotsOnMap() {
         mMap.clear()
@@ -259,6 +264,22 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
 
             // When you click on any marker, go to the descriptive view of it
         }
+
+        mMap!!.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
+            override fun onMarkerClick(marker: Marker): Boolean {
+                val intent = Intent(mContext, SpotDetailActivity::class.java).apply {
+                    currentList.forEach {
+                        if (it.name == marker.title) {
+                            putExtra(SpotDetailFragment.SPOT_DETAIL_ID, it)
+                        }
+                    }
+
+
+                }
+                mContext?.startActivity(intent)
+                return false
+            }
+        })
     }
 
     companion object {
