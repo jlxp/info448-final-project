@@ -243,7 +243,6 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
     }
 
 
-
     //This methods adds all markers for the current version of SpotList
     private fun setSpotsOnMap() {
         mMap.clear()
@@ -265,20 +264,21 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             // When you click on any marker, go to the descriptive view of it
         }
 
-        mMap!!.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
-            override fun onMarkerClick(marker: Marker): Boolean {
-                val intent = Intent(mContext, SpotDetailActivity::class.java).apply {
-                    currentList.forEach {
-                        if (it.name == marker.title) {
-                            putExtra(SpotDetailFragment.SPOT_DETAIL_ID, it)
+
+
+        mMap!!.setOnInfoWindowClickListener(object : GoogleMap.OnInfoWindowClickListener {
+            override fun onInfoWindowClick(marker: Marker) {
+                    val intent = Intent(mContext, SpotDetailActivity::class.java).apply {
+                        currentList.forEach {
+                            if (it.name == marker.title) {
+                                putExtra(SpotDetailFragment.SPOT_DETAIL_ID, it)
+                            }
                         }
+
+
                     }
-
-
+                    mContext?.startActivity(intent)
                 }
-                mContext?.startActivity(intent)
-                return false
-            }
         })
     }
 
