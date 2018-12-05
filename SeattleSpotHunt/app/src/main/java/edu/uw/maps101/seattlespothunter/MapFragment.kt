@@ -220,7 +220,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
             val mOptions = MarkerOptions().position(spot.latLng).title(spot.name)
 
             if (spot.cost) {
-                mOptions.snippet("$")
+                mOptions.snippet("$ This spot costs money to experience $")
             }
 
             if (spot.visited) {
